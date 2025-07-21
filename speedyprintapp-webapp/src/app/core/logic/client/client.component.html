@@ -1,0 +1,148 @@
+<div class="container-xxl flex-grow-1 container-p-y">
+  <h4 class="py-3 mb-4"><span class="text-muted fw-light"><i class="bx bx-home-circle text-primary"></i> > </span> Client</h4>
+
+  <!-- Basic Bootstrap Table -->
+  <div class="card">
+    <div class="card-header row ">
+      <div class="col-md-10">
+         <h5 class="">Administration des clients</h5>
+      </div>
+      <div class="col-md-2">
+         <button class="btn btn-primary" (click)="sendToCreation()" type="button"  data-bs-toggle="modal" data-bs-target="#exampleModal">
+          <i class="bx bx-plus text-white"></i>
+         </button>
+      </div>
+    </div>
+    <div class="table-responsive text-nowrap" id="tableauLivraison">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>N°</th>
+            <th>Nom </th>
+            <th>Contacts</th>
+            <th>email</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody class="table-border-bottom-0">
+            @for (c of listClient; track $index) {
+              <tr>
+                <td>
+                 {{$index+1}}
+                </td>
+                <td>
+                  <i class="bx bx-user bx-sm text-secondary me-3"></i>
+                  <span>{{c.nomUtilisateur}}</span>
+                </td>
+
+                <th>
+                  <i class="bx bxl-whatsapp bx-sm text-success me-3"></i>
+                  <span class="fw-medium">{{c.contact}}</span>
+                </th>
+                <th>
+                  <i class="bx bxl-gmail bx-sm text-secondary me-3"></i>
+                  <span class="fw-medium">{{c.email}}</span>
+                </th>
+                <td>
+                   <i class="bx bx-pencil text-info" type="button"  data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="selectClient(c)"></i>
+                   <i class="bx bx-edit text-primary" type="button"  data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="sendToView(c.idUser)"></i>
+                </td>
+              </tr>
+
+            }
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <!--/ Basic Bootstrap Table -->
+
+  <hr class="my-5" />
+  <!--/ Responsive Table -->
+</div>
+
+
+<!-- Modal -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="card mb-4">
+          <h5 class="card-header text-align-center">Nouveau Client</h5>
+          <div class="card-body ">
+
+              @if (isCreation) {
+                <form action="" [formGroup]="clientFb" (ngSubmit)="submitClient()">
+                  <div class="mb-3">
+                    <label for="defaultInput" class="form-label">Nom du CLient </label>
+                    <input id="defaultInput" class="form-control" type="text" placeholder="Nom & Prenom du client" formControlName="nomUtilisateur" />
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="defaultInput" class="form-label">Contact </label>
+                    <input id="defaultInput" class="form-control" type="text" placeholder="Default input" formControlName="contact" />
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="defaultInput" class="form-label">Email </label>
+                    <input id="defaultInput" class="form-control" type="text" placeholder="Default input" formControlName="email" />
+                  </div>
+
+                  <div class="btn-group">
+                    <button type="submit" href="#" class="btn btn-primary" > <i class="bx bx-save"></i> </button>
+                    <button (click)="deleteClient()" class="btn btn-danger"> <i class="bx bx-trash"></i> </button>
+                  </div>
+                </form>
+              }
+
+              @if (isViewAbonnement) {
+                 <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th>N°</th>
+                      <th>Offre </th>
+                      <th>date</th>
+                      <th>dateFin</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody class="table-border-bottom-0">
+                      @for (a of listAbonnementByClient; track $index) {
+                        <tr>
+                          <td>
+                          {{$index+1}}
+                          </td>
+                          <td>
+                            <i class="bx bx-user bx-sm text-secondary me-3"></i>
+                            <span>{{a.offre.intitule}}</span>
+                          </td>
+
+                          <th>
+                            <i class="bx bxl-whatsapp bx-sm text-success me-3"></i>
+                            <span class="fw-medium">{{a.date}}</span>
+                          </th>
+                          <th>
+                            <i class="bx bxl-gmail bx-sm text-secondary me-3"></i>
+                            <span class="fw-medium">{{a.dateFin}}</span>
+                          </th>
+                          <td>
+                            <i class="bx bx-pencil text-info"></i>
+                            <i class="bx bx-edit text-primary" type="button"></i>
+                          </td>
+                        </tr>
+
+                      }
+                  </tbody>
+                 </table>
+              }
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

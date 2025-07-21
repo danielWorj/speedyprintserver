@@ -1,0 +1,275 @@
+<div class="container-xxl flex-grow-1 container-p-y">
+  <div class="row">
+    <div class="col-lg-6 col-md-4 order-1">
+      <div class="row">
+        <div class="col-lg-6 col-md-12 col-6 mb-4">
+          <div class="card">
+            <div class="card-body">
+              <div class="card-title d-flex align-items-start justify-content-between">
+                <div class="avatar flex-shrink-0">
+                  <i class="bx bx-bookmark text-primary"></i>
+                </div>
+                <div class="dropdown">
+                  <button
+                    class="btn p-0"
+                    type="button"
+                    id="cardOpt3"
+                    data-bs-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false">
+                    <i class="bx bx-dots-vertical-rounded"></i>
+                  </button>
+                  <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt3">
+                    <a class="dropdown-item" routerLink="/commande">Tout voir<i class='bx bx-chevron-right'></i></a>
+                  </div>
+                </div>
+              </div>
+              <span class="fw-medium d-block mb-1">Commande</span>
+              <h3 class="card-title mb-2">{{countCommande}}</h3>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-12 col-6 mb-4">
+          <div class="card">
+            <div class="card-body">
+              <div class="card-title d-flex align-items-start justify-content-between">
+                <div class="avatar flex-shrink-0">
+                  <i class='bx bxs-credit-card text-success'></i>
+                </div>
+                <div class="dropdown">
+                  <button
+                    class="btn p-0"
+                    type="button"
+                    id="cardOpt6"
+                    data-bs-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false">
+                    <i class="bx bx-dots-vertical-rounded"></i>
+                  </button>
+                  <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt6">
+                    <a class="dropdown-item" routerLink="/transaction">Tout voir<i class='bx bx-chevron-right'></i></a>
+                  </div>
+                </div>
+              </div>
+              <span>Transaction</span>
+              <h3 class="card-title text-nowrap mb-1">4679 Fcfa</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6 col-md-4 order-1">
+      <div class="row">
+        <div class="col-lg-6 col-md-12 col-6 mb-4">
+          <div class="card">
+            <div class="card-body">
+              <div class="card-title d-flex align-items-start justify-content-between">
+                <div class="avatar flex-shrink-0">
+                  <i class="bx bx-user text-info"></i>
+                </div>
+                <div class="dropdown">
+                  <button
+                    class="btn p-0"
+                    type="button"
+                    id="cardOpt3"
+                    data-bs-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false">
+                    <i class="bx bx-dots-vertical-rounded"></i>
+                  </button>
+                  <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt3">
+                    <a class="dropdown-item" routerLink="/client">Tout voir<i class='bx bx-chevron-right'></i></a>
+                  </div>
+                </div>
+              </div>
+              <span class="fw-medium d-block mb-1">Client</span>
+              <h3 class="card-title mb-2">{{countClient}}</h3>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-12 col-6 mb-4">
+          <div class="card">
+            <div class="card-body">
+              <div class="card-title d-flex align-items-start justify-content-between">
+                <div class="avatar flex-shrink-0">
+                  <i class='bx bxs-gift text-black'></i>
+                </div>
+                <div class="dropdown">
+                  <button
+                    class="btn p-0"
+                    type="button"
+                    id="cardOpt6"
+                    data-bs-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false">
+                    <i class="bx bx-dots-vertical-rounded"></i>
+                  </button>
+                  <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt6">
+                    <a class="dropdown-item" routerLink="/livraison">Tout voir<i class='bx bx-chevron-right'></i></a>
+                  </div>
+                </div>
+              </div>
+              <span>Livraison</span>
+              <h3 class="card-title text-nowrap mb-1">{{countLivraison}}</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+     <!-- Total Revenue -->
+     <div class="col-12 col-lg-12 order-2 order-md-3 order-lg-2 mb-4">
+      <div class="card">
+        <div class="card-header"><h4 class="fw-bold">Etats Généraux</h4></div>
+        <div class="row row-bordered g-0">
+          <div class="col-md-4">
+            <div class="mb-2"  >
+            <div class=" p-1 fw-medium pt-3 mb-2 row">
+              <div class="col-md-8">
+                 clientèle
+              </div>
+              <div class="col-md-4 text-info">
+                Tout voir<i class='bx bx-chevron-right text-info' ></i>
+              </div>
+            </div>
+              <canvas id="clientOrigine" style="max-width: 10000px; max-height: 300px;"></canvas>
+            </div>
+
+          </div>
+          <div class="col-md-4">
+
+            <div class="mb-2"  >
+            <div class="p-1fw-medium pt-3 mb-2 row">
+                <div class="col-md-8">
+                   Livraisons
+                </div>
+                <div class="col-md-4 text-info">
+                  Tout voir<i class='bx bx-chevron-right text-info' ></i>
+                </div>
+              </div>
+              <canvas id="livraisonEtat" style="max-width: 10000px; max-height: 300px;"></canvas>
+            </div>
+
+          </div>
+          <div class="col-md-4">
+
+
+
+            <div class="mb-2"  >
+            <div class="p-1 fw-medium pt-3 mb-2 row">
+              <div class="col-md-8">
+                 Transaction
+              </div>
+              <div class="col-md-4 text-info">
+                Tout voir<i class='bx bx-chevron-right text-info' ></i>
+              </div>
+            </div>
+              <canvas id="transactionCompte" style="max-width: 10000px; max-height: 300px;"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Total Commande -->
+    <div class="col-12 col-lg-12 order-2 order-md-3 order-lg-2 mb-4">
+      <div class="card">
+        <div class="row row-bordered g-0">
+          <div class="col-md-6">
+            <h5 class="card-header m-0 me-2 pb-3">Commande</h5>
+            <div class="mb-2"  >
+            <div class="text-center fw-medium pt-3 mb-2">Evolution ces 10 derniers jours</div>
+              <canvas id="chartCommande15J" style="max-width: 10000px; max-height: 300px;"></canvas>
+            </div>
+
+          </div>
+          <div class="col-md-6">
+
+
+            <div class="text-center fw-medium pt-3 mb-2 my-3">05 Dernières Commande</div>
+
+            <div class="d-flex px-xxl-4 px-lg-2 p-4 gap-xxl-3 gap-lg-1 gap-3 justify-content-between">
+              <div class="table-responsive text-nowrap" id="tableauCommande">
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th>N°</th>
+                      <th>Type</th>
+                      <th>Delais</th>
+                      <th>Date</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody class="table-border-bottom-0">
+                    <tr>
+                      <td>
+                        01
+                      </td>
+                      <td>Cartes Visite</td>
+                      <td>
+                        04 Jours
+                      </td>
+                      <td>
+                        06-04-2025
+                      </td>
+
+                      <td>
+                        <i class="bx bx-edit text-info" type="button"  data-bs-toggle="modal" data-bs-target="#exampleModal"></i>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        02
+                      </td>
+                      <td>Flyers</td>
+                      <td>
+                        04 Jours
+                      </td>
+                      <td>
+                        06-04-2025
+                      </td>
+
+                      <td>
+                        <i class="bx bx-edit text-info" type="button"  data-bs-toggle="modal" data-bs-target="#exampleModal"></i>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        03
+                      </td>
+                      <td>Banderole</td>
+                      <td>
+                        03 Jours
+                      </td>
+                      <td>
+                        07-04-2025
+                      </td>
+
+                      <td>
+                        <i class="bx bx-edit text-info" type="button"  data-bs-toggle="modal" data-bs-target="#exampleModal"></i>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                      04
+                      </td>
+                      <td>Roll - Up </td>
+                      <td>
+                        03 Jours
+                      </td>
+                      <td>
+                        07-04-2025
+                      </td>
+
+                      <td>
+                        <i class="bx bx-edit text-info" type="button"  data-bs-toggle="modal" data-bs-target="#exampleModal"></i>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

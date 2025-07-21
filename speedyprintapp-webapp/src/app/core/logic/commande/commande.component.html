@@ -1,0 +1,694 @@
+<div class="container-xxl flex-grow-1 container-p-y">
+  <h4 class="py-3 mb-4"><span class="text-muted fw-light"><i class="bx bx-home-circle text-primary"></i> > </span> Commande</h4>
+
+  <!-- Crad statistique -->
+  <div class="row">
+    <div class="col-lg-4 mb-4 order-0">
+      <div class="card bg bg-info">
+        <div class="d-flex align-items-end row">
+          <div class="col-sm-7">
+            <div class="card-body">
+              <h5 class="card-title text-white"> <i class="bx bx-bookmark"></i> Total 🎉</h5>
+              <h3 class="mb-4 text-white ">
+               {{nombreOfCommande}}
+              </h3>
+
+              <a href="#tableauCommande" class="btn btn-sm btn-outline-white">Visiter</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4 mb-4 order-0">
+      <div class="card ">
+        <div class="d-flex align-items-end row">
+          <div class="col-sm-7">
+            <div class="card-body">
+              <h5 class="card-title text-primary"> <i class="bx bx-devices"></i> Mobile</h5>
+              <h3 class="mb-4">
+               {{nombreOfCommandeByMob}}
+              </h3>
+
+              <a href="#tableauCommande" class="btn btn-sm btn-outline-primary">Visiter</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4 mb-4 order-0">
+      <div class="card">
+        <div class="d-flex align-items-end row">
+          <div class="col-sm-7">
+            <div class="card-body">
+              <h5 class="card-title text-info"> <i class="bx bx-desktop"></i>  Desktop</h5>
+              <h3 class="mb-4">
+               {{nombreOfCommande - nombreOfCommandeByMob}}
+              </h3>
+
+              <a href="#tableauCommande" class="btn btn-sm btn-outline-primary">Visiter</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Basic Bootstrap Table -->
+
+  <div class="row">
+    <div class="col-md-8">
+      <div class="accordion mt-3 accordion-without-arrow">
+        <div class="accordion-item card">
+          <h2 class="accordion-header text-body d-flex justify-content-between" id="accordionIconOne">
+            <button
+              type="button"
+              class="accordion-button collapsed"
+              data-bs-toggle="collapse"
+              data-bs-target="#accordionIcon-1"
+              aria-controls="accordionIcon-1" (click)="openChart()">
+              Repartition Par Mois
+            </button>
+          </h2>
+
+          <div id="accordionIcon-1" class="accordion-collapse collapse" data-bs-parent="#accordionIcon">
+            <div class="accordion-body">
+              <div class="mb-2"  >
+                <canvas id="chartCommandeMois" style="max-width: 10000px; max-height: 300px;"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="accordion mt-3 accordion-without-arrow">
+        <div class="accordion-item card">
+          <h2 class="accordion-header text-body d-flex justify-content-between" id="accordionIconOne">
+            <button
+              type="button"
+              class="accordion-button collapsed"
+              data-bs-toggle="collapse"
+              data-bs-target="#accordionIcon-1"
+              aria-controls="accordionIcon-1" (click)="openChart()">
+              Repartition Par Quantite
+            </button>
+          </h2>
+
+          <div id="accordionIcon-1" class="accordion-collapse collapse" data-bs-parent="#accordionIcon">
+            <div class="accordion-body">
+              <div class="mb-2"  >
+                <canvas id="chartCommandeQte" style="max-width: 300px; max-height: 300px;"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card my-2 ">
+    <div class="card-header row ">
+      <div class="col-md-10">
+         <h5 class="">Administration des commandes</h5>
+      </div>
+      <div class="col-md-2">
+         <button class="btn btn-primary me-1" type="button"  data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="sendToCreation()">
+          <i class="bx bx-plus text-white"></i>
+         </button>
+      </div>
+    </div>
+
+
+    <div class="container-xxl flex-grow-1 container-p-y">
+
+      <div class="row">
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+             <tr>
+              <th>#</th>
+              <th>Service</th>
+              <th>Client</th>
+              <th>Contact</th>
+              <th>Quantite</th>
+              <th>Livraison</th>
+              <th>Etat</th>
+              <th>Actions</th>
+             </tr>
+            </thead>
+            <tbody>
+
+              @for (c of listCommande; track $index) {
+
+               <tr>
+                <td>{{$index+1}}</td>
+                <td>{{c.service.intitule}}</td>
+                <td>
+                  <i class="bx bx-user bx-sm text-secondary me-3"></i>
+                  <span>{{c.client.nomUtilisateur}}</span>
+                </td>
+
+                <th>
+                  <i class="bx bxl-whatsapp bx-sm text-success me-3"></i>
+                  <span class="fw-medium">{{c.client.contact}}</span>
+                </th>
+
+                <td>{{c.quantite}}</td>
+                <td>{{c.dateLivraison }}</td>
+                <td>@if(c.etatCommande==null){
+                      <span class="badge bg-label-secondary">ANALYSE</span>
+                    }
+                    @if(c.etatCommande!=null){
+                        @if (c.etatCommande.idEtatCommande==1) {
+                          <!-- CONCEPTION -->
+                          <span class="badge bg-label-info">{{c.etatCommande.intitule}}</span>
+                        }
+                         @if (c.etatCommande.idEtatCommande==2) {
+                          <!-- PRODUCTION -->
+                          <span class="badge bg-label-primary">{{c.etatCommande.intitule}}</span>
+                        }
+                         @if (c.etatCommande.idEtatCommande==3) {
+                          <!-- LIVRAISON -->
+                          <span class="badge bg-label-success">{{c.etatCommande.intitule}}</span>
+                        }
+                    }
+                </td>
+                <td>
+                  <i class="fa fa-eye me-1 text-primary"  type="button"  data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="sendToConsultCommande(c)"></i>
+                  <i class="fa fa-edit me-1 text-info"  type="button"  data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="callEndConceptionView(c)"></i>
+                  <i class="fa fa-trash text-danger" (click)="deleteCommande(c.idCommande)"></i>
+                </td>
+               </tr>
+
+
+              }
+
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+
+
+  </div>
+  <!--/ Basic Bootstrap Table -->
+
+  <hr class="my-5" />
+  <!--/ Responsive Table -->
+</div>
+
+
+<!-- Modal -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">
+          @if (isCreation) {
+            Nouvelle Commande
+          }
+          @if (isViewCommande) {
+            Details de la Commande
+          }
+          @if (isEndConception) {
+            Fin de la conception
+          }
+        </h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        @if (isCreation) {
+          <form action="" [formGroup]="commandeFb">
+            <div class="row">
+              <div class=" col-md-12">
+                <div class="mb-3">
+                  <label for="exampleFormControlSelect1" class="form-label">Service </label>
+                  <select class="form-select" id="exampleFormControlSelect1" aria-label="Default select example" (change)="getParametre($event)" formControlName="service">
+                    <option selected>Choisir</option>
+
+                    @for (s of listService; track $index) {
+                      <option value="{{s.idServices}}">{{s.intitule}}</option>
+                    }
+                  </select>
+                </div>
+              </div>
+
+              <div class=" col-md-12">
+                <div class="mb-3">
+                  <label for="exampleFormControlSelect1" class="form-label">CLIENT </label>
+                  <select class="form-select" id="exampleFormControlSelect1" aria-label="Default select example" formControlName="client">
+                    <option selected>Choisir</option>
+
+                    @for (c of listClient; track $index) {
+                      <option value="{{c.idUser}}">{{c.nomUtilisateur}}</option>
+                    }
+                  </select>
+                </div>
+              </div>
+              <div>
+                <label for="exampleFormControlTextarea1" class="form-label">Description</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" formControlName="description"></textarea>
+              </div>
+
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <label for="formFile" class="form-label">Image Recto</label>
+                  <input class="form-control" type="file" id="formFile" (change)="onSelectImage($event)" />
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <label for="formFile" class="form-label">Image Verso</label>
+                  <input class="form-control" type="file" id="formFile" (change)="onSelectImageVerso($event)" />
+                </div>
+              </div>
+
+              <div class=" col-md-12">
+                <div class="mb-3">
+                  <label for="exampleFormControlSelect1" class="form-label">Livraison</label>
+                  <input type="date" formControlName="dateLivraison" class="form-control" >
+                </div>
+              </div>
+
+
+              </div>
+
+              <small class="text-info fw-small">IMPRESSION</small>
+
+              <div class="row">
+                @if (listModeImpression.length!=0) {
+                  <div class="col-md-6">
+                    <div class="mb-3">
+
+                        <label for="exampleFormControlSelect1" class="form-label">ModeImpression: <span class="text-success"> {{impressionObjetParDefaut.modeImpression!.intitule}}</span></label>
+                        <select class="form-select" id="exampleFormControlSelect1" aria-label="Default select example" formControlName="modeImpression" (change)="getModeImpressionById($event)">
+                          <option selected>Choisir</option>
+                          @for (mi of listModeImpression; track $index) {
+                            <option value="{{mi.idModeImpression}}">{{mi.intitule}}</option>
+                          }
+                        </select>
+
+
+                    </div>
+                  </div>
+                }
+                @if (listFormat.length!=0) {
+                  <div class="col-md-6">
+                    <div class="mb-3">
+
+                        <label for="exampleFormControlSelect1" class="form-label">Format: <span class="text-success"> {{impressionObjetParDefaut.format!.intitule}}</span></label>
+                        <select class="form-select" id="exampleFormControlSelect1" aria-label="Default select example" formControlName="format" (change)="getFormatById($event)">
+                          <option selected>Choisir</option>
+                          @for (f of listFormat; track $index) {
+                          <option value="{{f.idFormat}}">{{f.intitule}}</option>
+                          }
+                        </select>
+                    </div>
+                  </div>
+                }
+
+                @if (listDimension.length!=0) {
+                  <div class="col-md-6">
+                    <div class="mb-3">
+
+                        <label for="exampleFormControlSelect1" class="form-label">Dimension : <span class="text-success"> {{impressionObjetParDefaut.dimension!.intitule}}</span></label>
+                        <select class="form-select" id="exampleFormControlSelect1" aria-label="Default select example" formControlName="dimension" (change)="getDimensionById($event)">
+                          <option selected>Choisir</option>
+                          @for (d of listDimension; track $index) {
+                            <option value="{{d.idDimension}}">{{d.intitule}}</option>
+                          }
+                        </select>
+
+                    </div>
+                  </div>
+                 }
+                @if (listTypePapier.length!=0) {
+                <div class="col-md-6">
+                  <div class="mb-3">
+
+                      <label for="exampleFormControlSelect1" class="form-label">Type Papier: <span class="text-success"> {{impressionObjetParDefaut.typePapier!.intitule}}</span></label>
+                      <select class="form-select" id="exampleFormControlSelect1" aria-label="Default select example" formControlName="typePapier" (change)="getTypePapierById($event)">
+                        <option selected>Choisir</option>
+                        @for (tp of listTypePapier; track $index) {
+                          <option value="{{tp.idTypePapier}}">{{tp.intitule}}</option>
+                        }
+                      </select>
+
+                  </div>
+                </div>
+                }
+                @if (listGrammage.length!=0) {
+                <div class="col-md-6">
+                  <div class="mb-3">
+
+                      <label for="exampleFormControlSelect1" class="form-label">Grammage : <span class="text-success"> {{impressionObjetParDefaut.grammage!.intitule}}</span></label>
+                      <select class="form-select" id="exampleFormControlSelect1" aria-label="Default select example" formControlName="grammage" (change)="getGrammageById($event)">
+                        <option selected>Choisir</option>
+                        @for (g of listGrammage; track $index) {
+                          <option value="{{g.idGrammage}}">{{g.intitule}}</option>
+                        }
+                      </select>
+
+                  </div>
+                </div>
+                }
+                @if (listFinition.length!=0) {
+                <div class="col-md-6">
+                  <div class="mb-3">
+
+                      <label for="exampleFormControlSelect1" class="form-label">Finition : <span class="text-success"> {{impressionObjetParDefaut.finition?.intitule}}</span></label>
+                      <select class="form-select" id="exampleFormControlSelect1" aria-label="Default select example" formControlName="finition" (change)="getFinitionById($event)">
+                        @for (f of listFinition; track $index) {
+                          <option value="{{f.idFinition}}">{{f.intitule}}</option>
+                        }
+                      </select>
+
+                  </div>
+                </div>
+                }
+                @if (listForme.length!=0) {
+                <div class="col-md-6">
+                  <div class="mb-3">
+
+                      <label for="exampleFormControlSelect1" class="form-label">Formes : <span class="text-success"> {{impressionObjetParDefaut.forme!.intitule}}</span></label>
+                      <select class="form-select" id="exampleFormControlSelect1" aria-label="Default select example" formControlName="forme" (change)="getFormeById($event)">
+                        <option selected>Choisir</option>
+                        @for (f of listForme; track $index) {
+                          <option value="{{f.idForme}}">{{f.intitule}}</option>
+                        }
+                      </select>
+
+                  </div>
+                </div>
+                }
+                @if (listCouleur.length!=0) {
+                <div class="col-md-6">
+                  <div class="mb-3">
+
+                      <label for="exampleFormControlSelect1" class="form-label">Couleurs : {{impressionObjetParDefaut.couleur?.intitule}}</label>
+                      <select class="form-select" id="exampleFormControlSelect1" aria-label="Default select example" formControlName="couleur" (change)="getCouleurById($event)">
+                        <option selected>Choisir</option>
+                        @for (c of listCouleur; track $index) {
+                          <option value="{{c.idCouleur}}">{{c.intitule}}</option>
+                        }
+                      </select>
+
+                  </div>
+                </div>
+                }
+                @if (listFace.length!=0) {
+                <div class="col-md-6">
+                  <div class="mb-3">
+
+                      <label for="exampleFormControlSelect1" class="form-label">Faces : <span class="text-success"> {{impressionObjetParDefaut.face?.intitule}}</span></label>
+                      <select class="form-select" id="exampleFormControlSelect1" aria-label="Default select example" formControlName="face" (change)="getFaceById($event)">
+                        @for (f of listFace; track $index) {
+                          <option value="{{f.idFace}}">{{f.intitule}}</option>
+                        }
+                      </select>
+
+                  </div>
+                </div>
+                }
+
+
+              </div>
+              <div class="row">
+                <div class=" col-md-6">
+                <div class="mb-3">
+                  <label for="exampleFormControlSelect1" class="form-label" (change)="getQuantiteCommande($event)">Quantite </label>
+                  <input type="number" formControlName="quantite" class="form-control" >
+                </div>
+              </div>
+
+              <div class=" col-md-6">
+                <div class="mb-3">
+                  <label for="exampleFormControlSelect1" class="form-label">Plusieurs exemplaires ?</label>
+                  <input type="number" class="form-control"  (change)="getExemplaire($event)" >
+                </div>
+              </div>
+              </div>
+
+
+              <small class="text-info fw-small">FACTURATION</small>
+
+              <div class=" col-md-12">
+                <div class="mb-3">
+                  <label for="exampleFormControlSelect1" class="form-label">Conception </label>
+                  <select class="form-select" id="exampleFormControlSelect1" aria-label="Default select example" (change)="getPriceConception()" formControlName="conception">
+                    <option selected>Choisir</option>
+
+                    @for (c of listConception; track $index) {
+                      <option value="{{c.idConception}}">{{c.typeConception.intitule}}</option>
+                    }
+                  </select>
+                </div>
+              </div>
+
+
+              <div class="card-text my-2 text-center">
+                <h4 class="fw-bold mb-2">
+                  @if (prixTotal==0) {
+                    Facturation : {{prixParDefaut}} XAF
+                  }
+                  @if (prixTotal!=0) {
+                    Facturation : {{prixTotal}} XAF
+                  }
+                   </h4>
+              </div>
+
+
+              <div class="card-text text-center">
+              <button class="btn btn-primary btn-block" (click)="facturation()">  <i class="bx bx-cart"></i> </button>
+              </div>
+
+          </form>
+        }
+        @if(isViewCommande){
+          <div class="card mb-3" >
+            <div class="row g-0">
+              <div class="col-md-4">
+                @for (i of listImageCommande; track $index) {
+                  <h3 class="fw-bold">{{i.face.intitule}}</h3>
+                  <img src="http://localhost:4200/assets/image/{{i.url}}" class="img-fluid rounded-start" alt="...">
+                }
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                  <h5 class="card-title">{{commandeSelected.service!.intitule!}}</h5>
+                  <p class="card-text">{{commandeSelected.service.description}}</p>
+                  <hr class="my-5" />
+                 <div class="row">
+
+                  <div class="col-md-6">
+                    <h5 class="card-text">Impression</h5>
+                    <ul class="list-group">
+                      <li class="list-group-item">
+                        Mode Impression  :
+                        @if (commandeSelected!.modeImpression! ==null) {
+                          <span class="text-warning">R A S</span>
+                        }
+                        @if (commandeSelected!.modeImpression!=null) {
+
+                          <span class="text-info">{{commandeSelected.modeImpression.intitule}}</span>
+                        }
+                      </li>
+                      <li class="list-group-item">
+                        Format  :
+                        @if (commandeSelected!.format! ==null) {
+                          <span class="text-warning">R A S</span>
+                        }
+                        @if (commandeSelected!.format!=null) {
+
+                          <span class="text-info">{{commandeSelected.format.intitule}}</span>
+                        }
+                      </li>
+                      <li class="list-group-item">
+                        Dimension  :
+                        @if (commandeSelected!.dimension! ==null) {
+                          <span class="text-warning">R A S</span>
+                        }
+                        @if (commandeSelected!.dimension!=null) {
+                          <span class="text-info">{{commandeSelected.dimension.intitule}}</span>
+                        }
+                      </li>
+                      <li class="list-group-item">
+                        Impression  :
+                        @if (commandeSelected!.impression! ==null) {
+                          <span class="text-warning">R A S</span>
+                        }
+                        @if (commandeSelected!.impression!=null) {
+                          <span class="text-info"> De {{commandeSelected.impression.borneInferieure}} à {{commandeSelected.impression.borneSuperieure}} :  {{commandeSelected.impression.montant}} XAF </span>
+                        }
+                      </li>
+
+                    </ul>
+                  </div>
+                 </div>
+                 <p class="card-text">
+                  <small class="m-3 text-body-secondary">CREATION<i class="bx bx-calendar text-secondary"></i> : {{commandeSelected.dateCreation}}</small>
+                  <small class="m-3 text-body-primary">LIVRAISON<i class="bx bx-calendar text-primary"></i> : {{commandeSelected.dateLivraison}}</small>
+                 </p>
+                <div class="card-text">
+                  <div class="mb-3">
+                  <small class="m-3 text-body-secondary">
+                  <i class="bx bx-calendar text-secondary"></i>
+                   <span class="fw-bold"> ETAT COMMANDE :</span>
+                    @if (commandeSelected.etatCommande!==null) {
+                        @if (commandeSelected!.impression!=null) {
+                          @if (commandeSelected.etatCommande.idEtatCommande==1) {
+                          <!-- CONCEPTION -->
+                          <span class="badge bg-label-secondary">{{commandeSelected.etatCommande.intitule}}</span>
+                          }
+                          @if (commandeSelected.etatCommande.idEtatCommande==2) {
+                            <!-- PRODUCTION -->
+                            <span class="badge bg-label-primary">{{commandeSelected.etatCommande.intitule}}</span>
+                          }
+                          @if (commandeSelected.etatCommande.idEtatCommande==3) {
+                            <!-- LIVRAISON -->
+                            <span class="badge bg-label-success">{{commandeSelected.etatCommande.intitule}}</span>
+                          }
+                        }
+                    }
+                    @if (commandeSelected.etatCommande==null) {
+                      Non défini
+                    }
+                  </small>
+                </div>
+                <div class="mb-3">
+                  <select class="form-select" id="exampleFormControlSelect1" aria-label="Default select example" (change)="eventChangeEtatCommande($event)" >
+                    <option selected>Changer l'état de la commande</option>
+
+                    @for (e of listEtatCommande; track $index) {
+                      <option value="{{e.idEtatCommande}}">{{e.intitule}}</option>
+                    }
+                  </select>
+                </div>
+                </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        }
+        @if (isEndConception) {
+          <div class="row">
+            <div class="col-md-6">
+              <form class="mb-3" action="" [formGroup]="commandeFb">
+                <div class="mb-3">
+                  <label for="formFile" class="form-label">Conception</label>
+                  <input class="form-control" type="file" id="formFile" (change)="onSelectImageConception($event)" />
+                </div>
+                @if (seeImage) {
+                  <div class="mb-3">
+                  <img class="card-img card-img-top mb-4" src="{{this.imageUrl}}" style="max-height: 275px; max-width: 275px;" alt="Card image" />
+                  </div>
+                }
+                <div class="btn-group d-flex">
+                  <button class="btn btn-primary btn-block" (click)="craeteConceptionCommande()">  <i class="bx bx-save"></i> </button>
+                </div>
+              </form>
+
+              <div class="card">
+                <div class="card-body">
+                 @if (listConceptionCommande.length!=0) {
+                   @for (c of listConceptionCommande; track $index) {
+
+                      <div class="row g-0">
+                        <div class="col-md-4">
+                          <img class="card-img card-img-left" src="http:///localhost:4200/assets/image/{{c.url!}}" alt="Card image" />
+                        </div>
+                        <div class="col-md-8">
+                          <div class="card-body">
+                            <h5 class="card-title">{{c.commande.service.intitule}}</h5>
+                            <p class="card-text">
+                             @if (c.message!=null) {
+                              {{c.message}}
+                             }
+
+                            </p>
+                            <p class="card-text"><small class="text-muted">
+                              @if (c.dateMisAJour!=null) {
+                               Mis à Jour :  {{c.dateMisAJour | date}}
+                              }
+                            </small></p>
+                          </div>
+                        </div>
+                      </div>
+                  }
+                 }
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <form action="" [formGroup]="messageFb">
+                <div class="mb-3">
+                  <label for="exampleFormControlSelect1" class="form-label">Name</label>
+                  <input type="text" formControlName="dateLivraison" class="form-control" value="{{emailClientSelected}}" formControlName="toEmail">
+                </div>
+
+
+                <div class="col-md-12 mb-3">
+                  <label for="exampleFormControlTextarea1" class="form-label">Message</label>
+                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" formControlName="description" formControlName="body"></textarea>
+                </div>
+                <div class="btn-group d-flex ">
+                  <button class="btn btn-success btn-block " (click)="sendEmail()" >  <i class="bx bxl-gmail"></i> </button>
+                </div>
+              </form>
+            </div>
+
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</div>
+ <!-- <script>
+        function checkout() {
+            CinetPay.setConfig({
+                apikey: '9731034965f9bc09a0df37.94572735',//   YOUR APIKEY
+                site_id: '414161',//YOUR_SITE_ID
+                notify_url: 'http://mondomaine.com/notify/',
+                mode: 'PRODUCTION'
+            });
+            CinetPay.getCheckout({
+                transaction_id: Math.floor(Math.random() * 100000000).toString(), // YOUR TRANSACTION ID
+                amount: 100,
+                currency: 'XAF',
+                channels: 'ALL',
+                description: 'Test de paiement',
+                 //Fournir ces variables pour le paiements par carte bancaire
+                customer_name:"Joe",//Le nom du client
+                customer_surname:"Down",//Le prenom du client
+                customer_email: "down@test.com",//l'email du client
+                customer_phone_number: "088767611",//l'email du client
+                customer_address : "BP 0024",//addresse du client
+                customer_city: "Antananarivo",// La ville du client
+                customer_country : "CM",// le code ISO du pays
+                customer_state : "CM",// le code ISO l'état
+                customer_zip_code : "06510", // code postal
+
+            });
+            CinetPay.waitResponse(function(data) {
+                if (data.status == "REFUSED") {
+                    if (alert("Votre paiement a échoué")) {
+                        window.location.reload();
+                    }
+                } else if (data.status == "ACCEPTED") {
+                    if (alert("Votre paiement a été effectué avec succès")) {
+                        window.location.reload();
+                    }
+                }
+            });
+            CinetPay.onError(function(data) {
+                console.log(data);
+            });
+        }
+</script> -->

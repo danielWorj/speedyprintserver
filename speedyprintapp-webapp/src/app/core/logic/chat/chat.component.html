@@ -1,0 +1,114 @@
+<div class="container-xxl flex-grow-1 container-p-y">
+  <div class="row clearfix">
+      <div class="col-lg-12">
+          <div class="card chat-app">
+              <div id="plist" class="people-list">
+                  <div class="input-group d-flex justify-content-between">
+                      <span class="input-group-text" (click)="searchClient()" ><i class="fa fa-plus"  type="button"  data-bs-toggle="modal" data-bs-target="#exampleModal"  ></i></span>
+                      <input type="text" class="form-control" placeholder="Search...">
+                  </div>
+                  <ul class="list-unstyled chat-list mt-2 mb-0">
+                      @for (c of listClient; track $index) {
+                         <li class="clearfix d-flex justify-content-between " (click)="getAllMessageWithClient(c.idUser!)">
+                            <img src="./../../../../assets/img/icons/profil.png" alt="avatar">
+                            <div class="about">
+                                <div class="name">{{c.nomUtilisateur}}</div>
+                            </div>
+                        </li>
+
+                      }
+                  </ul>
+              </div>
+              <div class="chat">
+                  @if (isViewMessage) {
+                    @if (this.clientSelected!=null) {
+                      <div class="chat-header clearfix">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <a href="javascript:void(0);" data-toggle="modal" data-target="#view_info">
+                                    <img src="./../../../../assets/img/icons/profil.png" alt="avatar">
+                                </a>
+                                <div class="chat-about">
+                                    <h6 class="m-b-0">{{clientSelected.nomUtilisateur!}}</h6>
+                                </div>
+                            </div>
+
+                        </div>
+                      </div>
+                    }
+                    <div class="chat-history scroll ">
+                        @if (this.listMessage.length == 0) {
+                          <p class="text-danger">Aucun echange de messages avec ce client</p>
+                        }
+
+                        @if (this.listMessage.length != 0) {
+
+                        <ul class="m-b-0">
+                           @for (m of listMessage; track $index) {
+                             @if (m.statut) {
+                              <li class="clearfix">
+                                <div  class="message other-message float-right bg bg-primarytext-white"> {{m.content}} <br> <small class="small">{{m.localDate | date }}</small> </div>
+                              </li>
+                             }
+                            @if (!m.statut) {
+                              <li class="clearfix">
+
+                                <div  class="message other-message float-left bg bg-success text-white"> {{m.content}} <br> <small class="small">{{m.localDate | date }}</small> </div>
+                              </li>
+                             }
+
+                           }
+
+                        </ul>
+                        }
+                    </div>
+                    <div class="chat-message clearfix">
+                        <div class="input-group mb-0 ">
+
+                           <form  class="w-100" action="" [formGroup]="chatForm" >
+                             <div>
+                              <div class="d-flex justify-content-between p-2">
+                                <label for="exampleFormControlTextarea1" class="form-label">Ecriver votre message et envoyez le</label>
+                                <span class="input-group-text" (click)="sendMessage()" ><i class="fa fa-send text-info" ></i></span>
+                              </div>
+
+                              <textarea class="form-control m-2" id="exampleFormControlTextarea1" rows="5" formControlName="content"></textarea>
+                            </div>
+                           </form>
+
+                        </div>
+                    </div>
+                  }
+              </div>
+          </div>
+      </div>
+  </div>
+  </div>
+
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">
+            Choisir le Client à Contacter
+          </h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+            <div class=" d-flex justify-content-between">
+
+              <select class="form-select" id="exampleFormControlSelect1" aria-label="Default select example" (change)="chooseClientForChat($event)">
+                <option selected>Choisir</option>
+                @for (c of listAllClient; track $index) {
+                  <option value="{{c.idUser}}">{{c.nomUtilisateur}}</option>
+                }
+              </select>
+              <span class="input-group-text" ><i class="fa fa-send text-success " type="button"data-bs-dismiss="modal" aria-label="Close"></i></span>
+            </div>
+
+        </div>
+      </div>
+    </div>
+  </div>

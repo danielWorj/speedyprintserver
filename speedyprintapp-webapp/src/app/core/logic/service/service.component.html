@@ -1,0 +1,1321 @@
+  <div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="py-3 mb-4"><span class="text-muted fw-light"><i class="bx bx-home-circle text-primary"></i> > </span> Services</h4>
+
+
+
+    <div class="card mb-3">
+      <div class="card-body">
+        <div class="d-flex justify-content-between">
+            <div class="mb-3">
+              <h4 class="fw-bold">Categorie Service</h4>
+            </div>
+            <div class="mb-3">
+              <button class="btn btn-info" (click)="categorieServicePage()" type="button"  data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="bx bx-cog"></i></button>
+            </div>
+        </div>
+        <div class="mb-3">
+          <label for="defaultSelect" class="form-label">Categorie Service</label>
+          <select id="defaultSelect" class="form-select" (change)="getAllServiceByCategorieService($event)">
+            <option>Choisir</option>
+            @for (c of listCategorieService; track $index) {
+            <option value="{{c.idCategorieService}}">{{c.intitule}}</option>
+            }
+          </select>
+        </div>
+      </div>
+
+    </div>
+    <div class="card my-2 ">
+
+      <div class="container-xxl flex-grow-1 container-p-y">
+
+        <hr class="mb-5 my-5">
+        <div class="row mb-5">
+          <div class="d-flex justify-content-between">
+            <div class="mb-3">
+              <h4 class="fw-bold">Services</h4>
+            </div>
+            <div class="mb-3">
+              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="sendToCreation()"><i class="bx bx-plus"></i></button>
+            </div>
+        </div>
+          @for (s of listService; track $index) {
+            <div class="col-md-6">
+              <div class="card mb-3">
+                <div class="row g-0">
+
+                  <div class="col-md-12">
+                    <div class="card-body">
+                      <div class="card-title d-flex justify-content-between">
+                        <h5 class="fw-bold">{{s.intitule}}</h5>
+
+                        <div>
+                          <i class="bx bx-pencil text-info" ></i>
+                          <i class="bx bx-edit text-primary"  type="button"  data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="sendToParametrage(s)"></i>
+                          <i class="bx bx-trash text-danger"  (click)="deleteService(s.idServices)"></i>
+                        </div>
+
+                      </div>
+                      <p class="card-text">
+                        {{s.description}}
+                      </p>
+                      <p class="card-text"><small class="text-muted">Creation : {{s.date | date}}</small></p>
+                    </div>
+                  </div>
+
+              </div>
+              </div>
+
+            </div>
+          }
+
+        </div>
+      </div>
+
+
+    </div>
+    <!--/ Basic Bootstrap Table -->
+
+    <hr class="my-5" />
+    <!--/ Responsive Table -->
+  </div>
+
+
+  <!-- Modal -->
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">
+            @if (isCreationService) {
+              Nouveau Service
+            }
+            @if (isParametrage) {
+              Paramétrage
+            }
+
+          </h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+          @if (isCreationService) {
+            <div class="card">
+              <div class="card-body">
+                <form action="" [formGroup]="serviceFb">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="mb-3">
+                        <label for="exampleFormControlSelect1" class="form-label">Categorie</label>
+                        <select name="" id="" class="form-select" formControlName="categorieService">
+                          <option value="">Choisir</option>
+                          @for (c of listCategorieService; track $index) {
+                            <option value="{{c.idCategorieService}}">{{c.intitule}}</option>
+                          }
+                        </select>
+                      </div>
+                    </div>
+                    <div class=" col-md-12">
+                      <div class="mb-3">
+                        <label for="exampleFormControlSelect1" class="form-label">Intitule</label>
+                        <input type="text" formControlName="intitule" class="form-control" >
+                      </div>
+                    </div>
+
+                    <div>
+                      <label for="exampleFormControlTextarea1" class="form-label">Description</label>
+                      <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" formControlName="description"></textarea>
+                    </div>
+
+                    <div class="col-md-12 mb-3">
+                      <small class="text-light fw-medium">Facturation</small>
+                      <div class="form-check mt-3">
+                        <input
+                          name="default-radio-1"
+                          class="form-check-input"
+                          type="radio"
+                          formControlName="forfait"
+                          value="1"
+                          id="defaultRadio1" />
+                        <label class="form-check-label" for="defaultRadio1"> Forfaitaire </label>
+                      </div>
+                      <div class="form-check">
+                        <input
+                          name="default-radio-1"
+                          class="form-check-input"
+                          type="radio"
+                          formControlName="forfait"
+                          value="0"
+                          id="defaultRadio2"
+                          checked />
+                        <label class="form-check-label" for="defaultRadio2"> Non Forfaitaire </label>
+                      </div>
+                    </div>
+
+                    <div class="col-md-12">
+                      <div class="mb-3">
+                        <label for="formFile" class="form-label">Image </label>
+                        <input class="form-control" type="file" id="formFile" (change)="onSelectImage($event)" />
+                      </div>
+                      @if (seeImageService) {
+                        <div class="mb-3">
+                        <img class="card-img card-img-top mb-4" src="{{this.fichierUrl}}" style="max-height: 275px; max-width: 275px;" alt="Card image" />
+                        </div>
+                      }
+                    </div>
+
+                    <div class="btn-group">
+                      <button class="btn btn-secondary" (click)="createService()">  <i class="bx bx-save"></i> </button>
+
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          }
+          @if(isParametrage){
+            <div class="card mb-3" >
+              <div class="row g-0">
+                <div class="col-md-4">
+                  <!-- //Impression  -->
+                <div class="card-body">
+                   @if (impressionForService!=null) {
+
+
+                        <form action="" [formGroup]="impressionFb">
+                          <div class="row mb-3">
+                              @if (listModeImpression.length!=0) {
+                                <div class="col-md-6">
+                                  <div class="mb-3">
+
+                                      <label for="exampleFormControlSelect1" class="form-label">ModeImpression</label>
+                                      <select class="form-select" id="exampleFormControlSelect1" aria-label="Default select example" formControlName="modeImpression">
+                                        <option selected>Choisir</option>
+                                        @for (mi of listModeImpression; track $index) {
+                                          <option value="{{mi.idModeImpression}}">{{mi.intitule}}</option>
+                                        }
+                                      </select>
+
+
+                                  </div>
+                                </div>
+                              }
+                              @if (listFormat.length!=0) {
+                                <div class="col-md-6">
+                                  <div class="mb-3">
+
+                                      <label for="exampleFormControlSelect1" class="form-label">Format</label>
+                                      <select class="form-select" id="exampleFormControlSelect1" aria-label="Default select example" formControlName="format">
+                                        <option selected>Choisir</option>
+                                        @for (f of listFormat; track $index) {
+                                        <option value="{{f.idFormat}}">{{f.intitule}}</option>
+                                        }
+                                      </select>
+                                  </div>
+                                </div>
+                              }
+
+                              @if (listDimension.length!=0) {
+                                <div class="col-md-6">
+                                  <div class="mb-3">
+
+                                      <label for="exampleFormControlSelect1" class="form-label">Dimension</label>
+                                      <select class="form-select" id="exampleFormControlSelect1" aria-label="Default select example" formControlName="dimension">
+                                        <option selected>Choisir</option>
+                                        @for (d of listDimension; track $index) {
+                                          <option value="{{d.idDimension}}">{{d.intitule}}</option>
+                                        }
+                                      </select>
+
+                                  </div>
+                                </div>
+                              }
+
+                              @if (listFinition.length!=0) {
+                                <div class="col-md-6">
+                                  <div class="mb-3">
+
+                                      <label for="exampleFormControlSelect1" class="form-label">Finition</label>
+                                      <select class="form-select" id="exampleFormControlSelect1" aria-label="Default select example" formControlName="finition">
+                                        <option selected>Choisir</option>
+                                        @for (f of listFinition; track $index) {
+                                          <option value="{{f.idFinition}}">{{f.intitule}}</option>
+                                        }
+                                      </select>
+
+                                  </div>
+                                </div>
+                              }
+                              @if (listTypePapier.length!=0) {
+                                <div class="col-md-6">
+                                  <div class="mb-3">
+
+                                      <label for="exampleFormControlSelect1" class="form-label">TypePapier</label>
+                                      <select class="form-select" id="exampleFormControlSelect1" aria-label="Default select example" formControlName="typePapier">
+                                        <option selected>Choisir</option>
+                                        @for (t of listTypePapier; track $index) {
+                                          <option value="{{t.idTypePapier}}">{{t.intitule}}</option>
+                                        }
+                                      </select>
+
+                                  </div>
+                                </div>
+                              }
+                              @if (listGrammage.length!=0) {
+                                <div class="col-md-6">
+                                  <div class="mb-3">
+
+                                      <label for="exampleFormControlSelect1" class="form-label">Grammage</label>
+                                      <select class="form-select" id="exampleFormControlSelect1" aria-label="Default select example" formControlName="grammage">
+                                        <option selected>Choisir</option>
+                                        @for (g of listGrammage; track $index) {
+                                          <option value="{{g.idGrammage}}">{{g.intitule}}</option>
+                                        }
+                                      </select>
+
+                                  </div>
+                                </div>
+                              }
+                              @if (listForme.length!=0) {
+                                <div class="col-md-6">
+                                  <div class="mb-3">
+
+                                      <label for="exampleFormControlSelect1" class="form-label">Forme</label>
+                                      <select class="form-select" id="exampleFormControlSelect1" aria-label="Default select example" formControlName="forme">
+                                        <option selected>Choisir</option>
+                                        @for (f of listForme; track $index) {
+                                          <option value="{{f.idForme}}">{{f.intitule}}</option>
+                                        }
+                                      </select>
+
+                                  </div>
+                                </div>
+                              }
+                              @if (listFace.length!=0) {
+                                <div class="col-md-6">
+                                  <div class="mb-3">
+
+                                      <label for="exampleFormControlSelect1" class="form-label">Face</label>
+                                      <select class="form-select" id="exampleFormControlSelect1" aria-label="Default select example" formControlName="face">
+                                        <option selected>Choisir</option>
+                                        @for (f of listFace; track $index) {
+                                          <option value="{{f.idFace}}">{{f.intitule}}</option>
+                                        }
+                                      </select>
+
+                                  </div>
+                                </div>
+                              }
+                              @if (listCouleur.length!=0) {
+                                <div class="col-md-6">
+                                  <div class="mb-3">
+
+                                      <label for="exampleFormControlSelect1" class="form-label">Couleur</label>
+                                      <select class="form-select" id="exampleFormControlSelect1" aria-label="Default select example" formControlName="couleur">
+                                        <option selected>Choisir</option>
+                                        @for (c of listCouleur; track $index) {
+                                          <option value="{{c.idCouleur}}">{{c.intitule}}</option>
+                                        }
+                                      </select>
+
+                                  </div>
+                                </div>
+                              }
+
+
+                            <div class="col-md-6">
+                              <label  class="form-label">Debut </label>
+                              <input type="number" placeholder="quantite" formControlName="borneInferieure" class="form-control">
+                            </div>
+                            <div class="col-md-6">
+                              <label  class="form-label">Fin </label>
+                              <input type="number" placeholder="quantite" formControlName="borneSuperieure" class="form-control">
+                            </div>
+                            <div class="col-md-6">
+                              <label  class="form-label">Montant </label>
+                              <input type="number" placeholder="quantite" formControlName="montant" class="form-control">
+                            </div>
+                            <div class="col-md-6">
+                              <label  class="form-label">Remise (%) </label>
+                              <input type="number" placeholder="remise (%)" formControlName="remise" class="form-control">
+                            </div>
+                          </div>
+                          <div class="btn-group d-flex">
+                            <button class="btn btn-primary " (click)="createImpression()">
+                              <i class="bx bx-plus"></i>
+                            </button>
+                          </div>
+                        </form>
+
+                        <hr class="my-5">
+
+                         <div class="table-responsive">
+                          <table class="table table-striped">
+                          <thead>
+                            <tr>
+                              <th>N°</th>
+                              <th>Quantite </th>
+                              <th>Montant</th>
+                              <th>Remise</th>
+                            </tr>
+                          </thead>
+                          <tbody class="table-border-bottom-0">
+                              @for (i of listImpression; track $index) {
+                                <tr>
+                                  <td>
+                                  {{$index+1}}
+                                  </td>
+                                  <td>
+                                    <span>{{i.borneInferieure}} : {{i.borneSuperieure}}</span>
+                                  </td>
+
+                                  <th>
+                                    <span class="fw-medium">{{i.montant}}</span>
+                                  </th>
+                                  <th>
+                                    <span class="fw-medium">{{i.remise}}</span>
+                                  </th>
+
+                                </tr>
+
+                              }
+                          </tbody>
+                          </table>
+                         </div>
+                   }
+                   @if (impressionForService==null) {
+                    <form action="" [formGroup]="impressionFb">
+                      <div class="row mb-3">
+                          @if (listModeImpression.length!=0) {
+                            <div class="col-md-6">
+                              <div class="mb-3">
+
+                                  <label for="exampleFormControlSelect1" class="form-label">ModeImpression</label>
+                                  <select class="form-select" id="exampleFormControlSelect1" aria-label="Default select example" formControlName="modeImpression">
+                                    <option selected>Choisir</option>
+                                    @for (mi of listModeImpression; track $index) {
+                                      <option value="{{mi.idModeImpression}}">{{mi.intitule}}</option>
+                                    }
+                                  </select>
+
+
+                              </div>
+                            </div>
+                          }
+                          @if (listFormat.length!=0) {
+                            <div class="col-md-6">
+                              <div class="mb-3">
+
+                                  <label for="exampleFormControlSelect1" class="form-label">Format</label>
+                                  <select class="form-select" id="exampleFormControlSelect1" aria-label="Default select example" formControlName="format">
+                                    <option selected>Choisir</option>
+                                    @for (f of listFormat; track $index) {
+                                    <option value="{{f.idFormat}}">{{f.intitule}}</option>
+                                    }
+                                  </select>
+                              </div>
+                            </div>
+                          }
+
+                          @if (listDimension.length!=0) {
+                            <div class="col-md-6">
+                              <div class="mb-3">
+
+                                  <label for="exampleFormControlSelect1" class="form-label">Dimension</label>
+                                  <select class="form-select" id="exampleFormControlSelect1" aria-label="Default select example" formControlName="dimension">
+                                    <option selected>Choisir</option>
+                                    @for (d of listDimension; track $index) {
+                                      <option value="{{d.idDimension}}">{{d.intitule}}</option>
+                                    }
+                                  </select>
+
+                              </div>
+                            </div>
+                          }
+
+                          @if (listFinition.length!=0) {
+                            <div class="col-md-6">
+                              <div class="mb-3">
+
+                                  <label for="exampleFormControlSelect1" class="form-label">Finition</label>
+                                  <select class="form-select" id="exampleFormControlSelect1" aria-label="Default select example" formControlName="finition">
+                                    <option selected>Choisir</option>
+                                    @for (f of listFinition; track $index) {
+                                      <option value="{{f.idFinition}}">{{f.intitule}}</option>
+                                    }
+                                  </select>
+
+                              </div>
+                            </div>
+                          }
+                          @if (listTypePapier.length!=0) {
+                            <div class="col-md-6">
+                              <div class="mb-3">
+
+                                  <label for="exampleFormControlSelect1" class="form-label">TypePapier</label>
+                                  <select class="form-select" id="exampleFormControlSelect1" aria-label="Default select example" formControlName="typePapier">
+                                    <option selected>Choisir</option>
+                                    @for (t of listTypePapier; track $index) {
+                                      <option value="{{t.idTypePapier}}">{{t.intitule}}</option>
+                                    }
+                                  </select>
+
+                              </div>
+                            </div>
+                          }
+                          @if (listGrammage.length!=0) {
+                            <div class="col-md-6">
+                              <div class="mb-3">
+
+                                  <label for="exampleFormControlSelect1" class="form-label">Grammage</label>
+                                  <select class="form-select" id="exampleFormControlSelect1" aria-label="Default select example" formControlName="grammage">
+                                    <option selected>Choisir</option>
+                                    @for (g of listGrammage; track $index) {
+                                      <option value="{{g.idGrammage}}">{{g.intitule}}</option>
+                                    }
+                                  </select>
+
+                              </div>
+                            </div>
+                          }
+                          @if (listForme.length!=0) {
+                            <div class="col-md-6">
+                              <div class="mb-3">
+
+                                  <label for="exampleFormControlSelect1" class="form-label">Forme</label>
+                                  <select class="form-select" id="exampleFormControlSelect1" aria-label="Default select example" formControlName="forme">
+                                    <option selected>Choisir</option>
+                                    @for (f of listForme; track $index) {
+                                      <option value="{{f.idForme}}">{{f.intitule}}</option>
+                                    }
+                                  </select>
+
+                              </div>
+                            </div>
+                          }
+                          @if (listFace.length!=0) {
+                            <div class="col-md-6">
+                              <div class="mb-3">
+
+                                  <label for="exampleFormControlSelect1" class="form-label">Forme</label>
+                                  <select class="form-select" id="exampleFormControlSelect1" aria-label="Default select example" formControlName="face">
+                                    <option selected>Choisir</option>
+                                    @for (f of listFace; track $index) {
+                                      <option value="{{f.idFace}}">{{f.intitule}}</option>
+                                    }
+                                  </select>
+
+                              </div>
+                            </div>
+                          }
+                          @if (listCouleur.length!=0) {
+                            <div class="col-md-6">
+                              <div class="mb-3">
+
+                                  <label for="exampleFormControlSelect1" class="form-label">Couleur</label>
+                                  <select class="form-select" id="exampleFormControlSelect1" aria-label="Default select example" formControlName="couleur">
+                                    <option selected>Choisir</option>
+                                    @for (c of listCouleur; track $index) {
+                                      <option value="{{c.idCouleur}}">{{c.intitule}}</option>
+                                    }
+                                  </select>
+
+                              </div>
+                            </div>
+                          }
+
+
+                        <div class="col-md-6">
+                          <label  class="form-label">Borne Inferieure  </label>
+                          <input type="number" placeholder="quantite" formControlName="borneInferieure" class="form-control">
+                        </div>
+                        <div class="col-md-6">
+                          <label  class="form-label">Borne Supérieure  </label>
+                          <input type="number" placeholder="quantite" formControlName="borneSuperieure" class="form-control">
+                        </div>
+                        <div class="col-md-6">
+                          <label  class="form-label">Montant </label>
+                          <input type="number" placeholder="quantite" formControlName="montant" class="form-control">
+                        </div>
+                        <div class="col-md-6">
+                          <label  class="form-label">Remise (%) </label>
+                          <input type="number" placeholder="remise (%)" formControlName="remise" class="form-control">
+                        </div>
+                      </div>
+                      <div class="btn-group d-flex">
+                        <button class="btn btn-primary " (click)="createImpression()">
+                          <i class="bx bx-plus"></i>
+                        </button>
+                      </div>
+                    </form>
+                   }
+
+
+                </div>
+
+                </div>
+                <div class="col-md-8">
+                  <div class="card-body">
+                    <h5 class="card-title">Parametrage</h5>
+                    <p class="card-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quisquam, quidem! </p>
+                    <hr class="my-2" />
+                  <div class="row">
+
+                    <!-- Conception -->
+                    <div class="col-md-12 mb-1">
+                    <div  id="accordionIcon" class="accordion mt-3 accordion-without-arrow">
+                      <div class="accordion-item card">
+                        <h2 class="accordion-header text-body d-flex justify-content-between" id="accordionIconOne">
+                          <button
+                            type="button"
+                            class="accordion-button collapsed"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#con"
+                            aria-controls="con">
+                            Conception
+                          </button>
+                        </h2>
+
+                        <div id="con" class="accordion-collapse collapse" data-bs-parent="#accordionIcon">
+                          <div class="accordion-body">
+                              <form action="" [formGroup]="conceptionFb">
+                              <div class="input-group">
+                                <input
+                                  type="text"
+                                  class="form-control"
+                                  placeholder="Recipient's username"
+                                  aria-label="Recipient's username"
+                                  aria-describedby="button-addon2" formControlName="intitule" />
+                                <button class="btn btn-outline-primary" type="button" id="button-addon2" (click)="createConception()"><i class="bx bx-plus"></i></button>
+                              </div>
+                              </form>
+                              <hr class="my-2 mb-2" >
+                              <div class="ul list-group">
+                                @for( c of listConception; track $index) {
+                                  <li class="list-group-item d-flex justify-content-between" (click)="selectConception(c)">
+                                    {{c.typeConception.intitule}} : {{c.montant}}
+                                      <i class="bx bx-trash text-danger me-2" (click)="deleteConception(c.idConception)"></i>
+                                  </li>
+                                }
+                              </div>
+                          </div>
+                        </div>
+                    </div>
+                    </div>
+
+                    </div>
+
+                    <hr class="my-2 mb-2" >
+
+                    <!-- Mode impression -->
+                    <div class="col-md-12 mb-1">
+                      <div  id="accordionIcon" class="accordion mt-3 accordion-without-arrow">
+                        <div class="accordion-item card">
+                          <h2 class="accordion-header text-body d-flex justify-content-between" id="accordionIconOne">
+                            <button
+                              type="button"
+                              class="accordion-button collapsed"
+                              data-bs-toggle="collapse"
+                              data-bs-target="#mdi"
+                              aria-controls="mdi">
+                              Mode Impression
+                            </button>
+                          </h2>
+
+                          <div id="mdi" class="accordion-collapse collapse" data-bs-parent="#accordionIcon">
+                            <div class="accordion-body">
+
+                              <form action="" [formGroup]="modeImpressionFb">
+                                <div class="row">
+                                  <div class="input-group mb-3 col-md-12">
+                                    <input type="text " class="form-control" placeholder="intitule" formControlName="intitule">
+                                  </div>
+                                  <div class="input-group mb-3 col-md-6">
+                                    <input type="number" name=""  class="form-control" placeholder="valeur à ajouter" formControlName="valeurAjout">
+                                  </div>
+                                   <div class="input-group mb-3 col-md-6">
+                                    <input type="number" name=""  class="form-control" placeholder="valeur à multiplier" formControlName="valeurMultiplication">
+                                  </div>
+                                </div>
+                                  <button class="btn btn-outline-primary" type="button" id="button-addon2" (click)="createModeImpression()"><i class="bx bx-plus"></i></button>
+                              </form>
+
+                              <hr class="my-2 mb-2" >
+
+                              <ul class="list-group mb-3">
+                                @for( m of listModeImpression; track $index) {
+                                  <li class="list-group-item d-flex  justify-content-between" (click)="selectModeImpression(m)">
+                                    <span> {{m.intitule}} </span>
+                                    <span class="fw-bold">
+                                      @if (m.valeurAjout!=null) {
+                                       <span class="text-success">+</span> {{m.valeurAjout}} XAF
+                                      }
+                                      @if (m.valeurMultiplication!=null) {
+                                        <span class="text-success">x</span>{{m.valeurMultiplication}}
+                                      }
+                                    </span>
+                                    <i class="bx bx-trash text-danger me-2" (click)="deleteModeImpression(m.idModeImpression)"></i>
+                                  </li>
+                                }
+                              </ul>
+
+                            </div>
+                          </div>
+                      </div>
+                      </div>
+
+                    </div>
+                    <!-- Format -->
+                    <div class="col-md-12 mb-1">
+                      <div  id="accordionIcon" class="accordion mt-3 accordion-without-arrow">
+                        <div class="accordion-item card">
+                          <h2 class="accordion-header text-body d-flex justify-content-between" id="accordionIconOne">
+                            <button
+                              type="button"
+                              class="accordion-button collapsed"
+                              data-bs-toggle="collapse"
+                              data-bs-target="#format"
+                              aria-controls="format">
+                              Format
+                            </button>
+                          </h2>
+
+                          <div id="format" class="accordion-collapse collapse" data-bs-parent="#accordionIcon">
+                            <div class="accordion-body">
+                                <form action="" [formGroup]="formatFb">
+                                  <div class="">
+                                    <div class="input-group mb-3 col-md-12">
+                                    <input
+                                      type="text"
+                                      class="form-control"
+                                      placeholder="Recipient's username"
+                                      aria-label="Recipient's username"
+                                      aria-describedby="button-addon2" formControlName="intitule" />
+
+                                     </div>
+
+                                    <div class="row">
+                                        <div class="input-group mb-3 col-lg-6">
+                                          <input type="number" name=""  class="form-control" placeholder="valeur à ajouter " formControlName="valeurAjout">
+                                        </div>
+                                        <div class="input-group mb-3 col-lg-6">
+                                          <input type="number" name=""  class="form-control" placeholder="valeur à multiplier" formControlName="valeurMultiplication">
+                                        </div>
+                                    </div>
+                                  </div>
+
+                                    <button class="btn btn-outline-primary" type="button" id="button-addon2" (click)="createFormat()"><i class="bx bx-plus"></i></button>
+
+                                </form>
+                                <hr class="my-2 mb-2" >
+                                <ul class="list-group mb-3">
+
+                                  @for( f of listFormat; track $index) {
+                                    <li class="list-group-item d-flex justify-content-between" (click)="selectFormat(f)">
+                                       <span> {{f.intitule}} </span>
+                                        <span class="fw-bold">
+                                          @if (f.valeurAjout!=null) {
+                                          <span class="text-success">+</span> {{f.valeurAjout}} XAF
+                                          }
+                                          @if (f.valeurMultiplication!=null) {
+                                            <span class="text-success">x</span>{{f.valeurMultiplication}}
+                                          }
+                                        </span>
+                                      <i class="bx bx-trash text-danger me-2" (click)="deleteFormat(f.idFormat)"></i>
+                                    </li>
+                                  }
+                                </ul>
+                            </div>
+                          </div>
+                      </div>
+                      </div>
+
+                    </div>
+                    <!-- Dimension -->
+                    <div class="col-md-12 mb-1">
+                      <div  id="accordionIcon" class="accordion mt-3 accordion-without-arrow">
+                        <div class="accordion-item card">
+                          <h2 class="accordion-header text-body d-flex justify-content-between" id="accordionIconOne">
+                            <button
+                              type="button"
+                              class="accordion-button collapsed"
+                              data-bs-toggle="collapse"
+                              data-bs-target="#dim"
+                              aria-controls="dim">
+                              Dimension
+                            </button>
+                          </h2>
+
+                          <div id="dim" class="accordion-collapse collapse" data-bs-parent="#accordionIcon">
+                            <div class="accordion-body">
+                                <form action="" [formGroup]="dimensionFb">
+                                  <div class="row">
+                                    <div class="input-group col-md-12 mb-3">
+                                    <input
+                                      type="text"
+                                      class="form-control"
+                                      placeholder="Recipient's username"
+                                      aria-label="Recipient's username"
+                                      aria-describedby="button-addon2" formControlName="intitule" />
+                                  </div>
+                                  <div class="input-group mb-3 col-lg-6">
+                                    <input type="number" name=""  class="form-control" placeholder="valeur à ajouter " formControlName="valeurAjout">
+                                  </div>
+                                  <div class="input-group mb-3 col-lg-6">
+                                    <input type="number" name=""  class="form-control" placeholder="valeur à multiplier" formControlName="valeurMultiplication">
+                                  </div>
+                                  </div>
+                                  <button class="btn btn-outline-primary" type="button" id="button-addon2" (click)="createDimension()"><i class="bx bx-plus"></i></button>
+
+                                </form>
+                                <hr class="my-2 mb-2" >
+                                <ul class="list-group">
+                                  @for( d of listDimension; track $index) {
+                                    <li class="list-group-item d-flex justify-content-between" (click)="selectDimension(d)">
+                                       <span> {{d.intitule}} </span>
+                                        <span class="fw-bold">
+                                          @if (d.valeurAjout!=null) {
+                                          <span class="text-success">+</span> {{d.valeurAjout}} XAF
+                                          }
+                                          @if (d.valeurMultiplication!=null) {
+                                            <span class="text-success">x</span>{{d.valeurMultiplication}}
+                                          }
+                                        </span>
+                                      <i class="bx bx-trash text-danger me-2" (click)="deleteDimension(d.idDimension)"></i>
+                                    </li>
+                                  }
+                                </ul>
+                            </div>
+                          </div>
+                      </div>
+                      </div>
+
+                    </div>
+
+                      <!-- Type Papier -->
+                    <div class="col-md-12 mb-1">
+                      <div  id="accordionIcon" class="accordion mt-3 accordion-without-arrow">
+                        <div class="accordion-item card">
+                          <h2 class="accordion-header text-body d-flex justify-content-between" id="accordionIconOne">
+                            <button
+                              type="button"
+                              class="accordion-button collapsed"
+                              data-bs-toggle="collapse"
+                              data-bs-target="#pap"
+                              aria-controls="pap">
+                              Type Papier
+                            </button>
+                          </h2>
+
+                          <div id="pap" class="accordion-collapse collapse" data-bs-parent="#accordionIcon">
+                            <div class="accordion-body">
+                              <form action="" [formGroup]="typePapierFb">
+                                  <div class="input-group mb-3">
+                                    <input
+                                      type="text"
+                                      class="form-control"
+                                      placeholder="Recipient's username"
+                                      aria-label="Recipient's username"
+                                      aria-describedby="button-addon2" formControlName="intitule" />
+                                  </div>
+                                  <div class="input-group mb-3 col-lg-6">
+                                    <input type="number" name=""  class="form-control" placeholder="valeur à ajouter " formControlName="valeurAjout">
+                                  </div>
+                                  <div class="input-group mb-3 col-lg-6">
+                                    <input type="number" name=""  class="form-control" placeholder="valeur à multiplier" formControlName="valeurMultiplication">
+                                  </div>
+                                  <button class="btn btn-outline-primary" type="button" id="button-addon2" (click)="createTypePapier()"><i class="bx bx-plus"></i></button>
+
+                                </form>
+                                <hr class="my-2 mb-2" >
+                                <ul class="list-group">
+                                  @for( t of listTypePapier; track $index) {
+                                    <li class="list-group-item d-flex justify-content-between" (click)="selectTypePapier(t)">
+                                       <span> {{t.intitule}} </span>
+                                      <span class="fw-bold">
+                                        @if (t.valeurAjout!=null) {
+                                        <span class="text-success">+</span> {{t.valeurAjout}} XAF
+                                        }
+                                        @if (t.valeurMultiplication!=null) {
+                                          <span class="text-success">x</span>{{t.valeurMultiplication}}
+                                        }
+                                      </span>
+                                        <i class="bx bx-trash text-danger me-2" (click)="deleteTypePapier(t.idTypePapier)"></i>
+                                    </li>
+                                  }
+                                </ul>
+                            </div>
+                          </div>
+                      </div>
+                      </div>
+                    </div>
+
+                    <!-- Grammage-->
+                    <div class="col-md-12 mb-1">
+                      <div  id="accordionIcon" class="accordion mt-3 accordion-without-arrow">
+                        <div class="accordion-item card">
+                          <h2 class="accordion-header text-body d-flex justify-content-between" id="accordionIconOne">
+                            <button
+                              type="button"
+                              class="accordion-button collapsed"
+                              data-bs-toggle="collapse"
+                              data-bs-target="#gram"
+                              aria-controls="gram">
+                              Grammage
+                            </button>
+                          </h2>
+
+                          <div id="gram" class="accordion-collapse collapse" data-bs-parent="#accordionIcon">
+                            <div class="accordion-body">
+                              <form action="" [formGroup]="grammageFb">
+                                <div class="input-group mb-3">
+                                  <input
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="Recipient's username"
+                                    aria-label="Recipient's username"
+                                    aria-describedby="button-addon2" formControlName="intitule" />
+                                </div>
+                                <div class="input-group mb-3 col-lg-6">
+                                  <input type="number" name=""  class="form-control" placeholder="valeur à ajouter " formControlName="valeurAjout">
+                                </div>
+                                <div class="input-group mb-3 col-lg-6">
+                                  <input type="number" name=""  class="form-control" placeholder="valeur à multiplier" formControlName="valeurMultiplication">
+                                </div>
+                                <button class="btn btn-outline-primary" type="button" id="button-addon2" (click)="createGrammage()"><i class="bx bx-plus"></i></button>
+
+                              </form>
+                              <hr class="my-2 mb-2" >
+                              <ul class="list-group">
+                                @for( g of listGrammage; track $index) {
+                                  <li class="list-group-item d-flex justify-content-between" (click)="selectGrammage(g)">
+                                     <span> {{g.intitule}} </span>
+                                      <span class="fw-bold">
+                                        @if (g.valeurAjout!=null) {
+                                        <span class="text-success">+</span> {{g.valeurAjout}} XAF
+                                        }
+                                        @if (g.valeurMultiplication!=null) {
+                                          <span class="text-success">x</span>{{g.valeurMultiplication}}
+                                        }
+                                      </span>
+                                    <i class="bx bx-trash text-danger me-2" (click)="deleteGrammage(g.idGrammage)"></i>
+                                  </li>
+                                }
+                              </ul>
+                            </div>
+                          </div>
+                      </div>
+                      </div>
+                    </div>
+                    <!-- Finition-->
+                    <div class="col-md-12 mb-1">
+                      <div  id="accordionIcon" class="accordion mt-3 accordion-without-arrow">
+                        <div class="accordion-item card">
+                          <h2 class="accordion-header text-body d-flex justify-content-between" id="accordionIconOne">
+                            <button
+                              type="button"
+                              class="accordion-button collapsed"
+                              data-bs-toggle="collapse"
+                              data-bs-target="#fin"
+                              aria-controls="fin">
+                              Finition
+                            </button>
+                          </h2>
+
+                          <div id="fin" class="accordion-collapse collapse" data-bs-parent="#accordionIcon">
+                            <div class="accordion-body">
+
+
+                                <div class="row">
+                                  <div class="col-md-6">
+                                      <form action="" [formGroup]="finitionFb">
+                                        <div class="input-group mb-3">
+                                        <input
+                                          type="text"
+                                          class="form-control"
+                                          placeholder="Intitulé de la finition"
+                                          aria-label="Recipient's username"
+                                          aria-describedby="button-addon2" formControlName="intitule" />
+                                        </div>
+
+                                        <button class="btn btn-outline-primary" type="button" id="button-addon2" (click)="createFinition()"><i class="bx bx-plus"></i></button>
+
+                                      </form>
+                                  </div>
+                                  <div class="col-md-6">
+                                      <h6 class="fw-bold">{{nomFinition}}</h6>
+                                      <form action="" [formGroup]="facturationFinitionFb">
+
+                                        <div class="input-group mb-3 col-lg-6">
+                                          <input type="number" name=""  class="form-control" placeholder="valeur à ajouter " formControlName="valeurAjout">
+                                        </div>
+                                        <div class="input-group mb-3 col-lg-6">
+                                          <input type="number" name=""  class="form-control" placeholder="valeur à multiplier" formControlName="valeurMultiplication">
+                                        </div>
+
+                                        <div class="input-group mb-3 col-lg-6">
+                                          <input type="number" name=""  class="form-control" placeholder="Borne Inferieure " formControlName="borneInferieure">
+                                        </div>
+
+                                        <div class="input-group mb-3 col-lg-6">
+                                          <input type="number" name=""  class="form-control" placeholder="Borne Superieure " formControlName="borneSuperieure">
+                                        </div>
+
+                                        <button class="btn btn-outline-primary" type="button" id="button-addon2" (click)="createFacturationFinition()"><i class="bx bx-plus"></i></button>
+
+                                      </form>
+                                  </div>
+                                </div>
+
+                                <hr class="my-2 mb-2" >
+                                <div class="row">
+                                  <div class="col-md-4">
+                                    <ul class="list-group   ">
+                                    <small class="text-light fw-medium">Liste</small>
+                                      @for( f of listFinition; track $index) {
+                                        <li class="list-group-item list-group-item-action d-flex justify-content-between" (click)="getFinitionForParamatrage(f)">
+                                          <span>{{f.intitule}}</span>
+                                          <i class="bx bx-trash text-danger me-2"></i>
+                                        </li>
+                                      }
+                                    </ul>
+                                  </div>
+                                  <div class="col-md-8 table-responsive">
+                                    <table class="table table-striped">
+                                      <thead>
+                                        <tr>
+                                          <th>Valeur(s) </th>
+                                          <th>Intervale</th>
+                                          <th>Actions</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody class="table-border-bottom-0">
+                                          @for (f of listFacturationFinition; track $index) {
+                                            <tr>
+
+                                              <td>
+                                                <span class="text-success">+</span> {{f.valeurAjout ?? 0}} XAF
+
+                                                <span class="text-success">x</span>{{f.valeurMultiplication ?? 1}}
+                                              </td>
+                                              <td>
+                                                [ {{f.borneInferieure}} : {{f.borneSuperieure}} ]
+                                              </td>
+                                              <td>
+                                                <i class="bx bx-trash text-danger me-2" (click)="deleteFacturationFinition(f.idFacturationFinition)"></i>
+                                              </td>
+                                            </tr>
+
+                                          }
+                                      </tbody>
+                                    </table>
+                                  </div>
+
+                                </div>
+
+
+
+                            </div>
+                          </div>
+                      </div>
+                      </div>
+                    </div>
+
+                    <!-- Forme-->
+                    <div class="col-md-12 mb-1">
+                      <div  id="accordionIcon" class="accordion mt-3 accordion-without-arrow">
+                        <div class="accordion-item card">
+                          <h2 class="accordion-header text-body d-flex justify-content-between" id="accordionIconOne">
+                            <button
+                              type="button"
+                              class="accordion-button collapsed"
+                              data-bs-toggle="collapse"
+                              data-bs-target="#for"
+                              aria-controls="for">
+                              Forme
+                            </button>
+                          </h2>
+
+                          <div id="for" class="accordion-collapse collapse" data-bs-parent="#accordionIcon">
+                            <div class="accordion-body">
+
+                              <form action="" [formGroup]="formeFb">
+                                <div class="input-group mb-3">
+                                  <input
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="Recipient's username"
+                                    aria-label="Recipient's username"
+                                    aria-describedby="button-addon2" formControlName="intitule" />
+                                </div>
+                                <div class="input-group mb-3 col-lg-6">
+                                  <input type="number" name=""  class="form-control" placeholder="valeur à ajouter " formControlName="valeurAjout">
+                                </div>
+                                <div class="input-group mb-3 col-lg-6">
+                                  <input type="number" name=""  class="form-control" placeholder="valeur à multiplier" formControlName="valeurMultiplication">
+                                </div>
+                                <button class="btn btn-outline-primary" type="button" id="button-addon2" (click)="createForme()"><i class="bx bx-plus"></i></button>
+
+                              </form>
+                              <hr class="my-2 mb-2" >
+                              <ul class="list-group">
+                                @for( f of listForme; track $index) {
+                                  <li class="list-group-item d-flex justify-content-between" (click)="selectForme(f)">
+                                    <span> {{f.intitule}} </span>
+                                      <span class="fw-bold">
+                                        @if (f.valeurAjout!=null) {
+                                        <span class="text-success">+</span> {{f.valeurAjout}} XAF
+                                        }
+                                        @if (f.valeurMultiplication!=null) {
+                                          <span class="text-success">x</span>{{f.valeurMultiplication}}
+                                        }
+                                      </span>
+                                    <i class="bx bx-trash text-danger me-2" (click)="deleteForme(f.idForme)"></i>
+                                  </li>
+                                }
+                              </ul>
+                            </div>
+                          </div>
+                      </div>
+                      </div>
+                    </div>
+                    <!-- Couleur -->
+                    <div class="col-md-12 mb-1">
+                      <div  id="accordionIcon" class="accordion mt-3 accordion-without-arrow">
+                        <div class="accordion-item card">
+                          <h2 class="accordion-header text-body d-flex justify-content-between" id="accordionIconOne">
+                            <button
+                              type="button"
+                              class="accordion-button collapsed"
+                              data-bs-toggle="collapse"
+                              data-bs-target="#col"
+                              aria-controls="col">
+                              Couleur
+                            </button>
+                          </h2>
+
+                          <div id="col" class="accordion-collapse collapse" data-bs-parent="#accordionIcon">
+                            <div class="accordion-body">
+
+                              <div class="row">
+                                <div class="col-md-6">
+                                    <form action="" [formGroup]="couleurFb">
+                                      <div class="input-group mb-3">
+                                        <input
+                                          type="text"
+                                          class="form-control"
+                                          placeholder="Recipient's username"
+                                          aria-label="Recipient's username"
+                                          aria-describedby="button-addon2" formControlName="intitule" />
+                                      </div>
+
+                                      <button class="btn btn-outline-primary" type="button" id="button-addon2" (click)="createCouleur()"><i class="bx bx-plus"></i></button>
+
+                                    </form>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6 class="fw-bold">{{nomCouleur}}</h6>
+                                    <form action="" [formGroup]="facturationCouleurFb">
+
+                                      <div class="input-group mb-3 col-lg-6">
+                                        <input type="number" name=""  class="form-control" placeholder="valeur à ajouter " formControlName="valeurAjout">
+                                      </div>
+                                      <div class="input-group mb-3 col-lg-6">
+                                        <input type="number" name=""  class="form-control" placeholder="valeur à multiplier" formControlName="valeurMultiplication">
+                                      </div>
+
+                                      <div class="input-group mb-3 col-lg-6">
+                                        <input type="number" name=""  class="form-control" placeholder="Borne Inferieure " formControlName="borneInferieure">
+                                      </div>
+
+                                      <div class="input-group mb-3 col-lg-6">
+                                        <input type="number" name=""  class="form-control" placeholder="Borne Superieure " formControlName="borneSuperieure">
+                                      </div>
+
+                                      <button class="btn btn-outline-primary" type="button" id="button-addon2" (click)="createFacturationCouleur()"><i class="bx bx-plus"></i></button>
+
+                                    </form>
+                                </div>
+                              </div>
+
+                              <hr class="my-2 mb-2" >
+                              <div class="row">
+                                <div class="col-md-4">
+                                  <ul class="list-group   ">
+                                   <small class="text-light fw-medium">Liste</small>
+                                    @for( c of listCouleur; track $index) {
+                                      <li class="list-group-item list-group-item-action d-flex justify-content-between" (click)="getCouleurForParamatrage(c)">
+                                        <span>{{c.intitule}}</span>
+                                        <i class="bx bx-trash text-danger me-2" (click)="deleteCouleur(c.idCouleur)"></i>
+                                      </li>
+                                    }
+                                  </ul>
+                                </div>
+                                 <div class="col-md-8 table-responsive">
+                                  <table class="table table-striped">
+                                    <thead>
+                                      <tr>
+                                        <th>Valeur(s) </th>
+                                        <th>Intervale</th>
+                                        <th>Actions</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody class="table-border-bottom-0">
+                                        @for (fc of listFacturationCouleur; track $index) {
+                                          <tr>
+
+                                            <td>
+                                              <span class="text-success">+</span> {{fc.valeurAjout ?? 0}} XAF
+
+                                              <span class="text-success">x</span>{{fc.valeurMultiplication ?? 1}}
+                                            </td>
+                                            <td>
+                                              [ {{fc.borneInferieure}} : {{fc.borneSuperieure}} ]
+                                            </td>
+                                            <td>
+                                              <i class="bx bx-trash text-danger me-2" (click)="deleteFacturationCouleur(fc.idFacturationCouleur)"></i>
+                                            </td>
+                                          </tr>
+
+                                        }
+                                    </tbody>
+                                  </table>
+                                </div>
+
+                              </div>
+
+                            </div>
+                          </div>
+                      </div>
+                      </div>
+                    </div>
+                    <!-- Face -->
+                    <div class="col-md-12 mb-1">
+                      <div  id="accordionIcon" class="accordion mt-3 accordion-without-arrow">
+                        <div class="accordion-item card">
+                          <h2 class="accordion-header text-body d-flex justify-content-between" id="accordionIconOne">
+                            <button
+                              type="button"
+                              class="accordion-button collapsed"
+                              data-bs-toggle="collapse"
+                              data-bs-target="#face"
+                              aria-controls="face">
+                              Face
+                            </button>
+                          </h2>
+
+                          <div id="face" class="accordion-collapse collapse" data-bs-parent="#accordionIcon">
+                            <div class="accordion-body">
+
+                              <form action="" [formGroup]="faceFb">
+                                <div class="input-group mb-3">
+                                  <input
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="Recipient's username"
+                                    aria-label="Recipient's username"
+                                    aria-describedby="button-addon2" formControlName="intitule" />
+                                </div>
+                                <div class="input-group mb-3 col-lg-6">
+                                  <input type="number" name=""  class="form-control" placeholder="valeur à ajouter " formControlName="valeurAjout">
+                                </div>
+                                <div class="input-group mb-3 col-lg-6">
+                                  <input type="number" name=""  class="form-control" placeholder="valeur à multiplier" formControlName="valeurMultiplication">
+                                </div>
+                                <button class="btn btn-outline-primary" type="button" id="button-addon2" (click)="createFace()"><i class="bx bx-plus"></i></button>
+
+                              </form>
+                              <hr class="my-2 mb-2" >
+                              <ul class="list-group">
+                                @for( f of listFace; track $index) {
+                                  <li class="list-group-item d-flex justify-content-between" (click)="selectFace(f)">
+                                    <span> {{f.intitule}} </span>
+                                      <span class="fw-bold">
+                                        @if (f.valeurAjout!=null) {
+                                        <span class="text-success">+</span> {{f.valeurAjout}} XAF
+                                        }
+                                        @if (f.valeurMultiplication!=null) {
+                                          <span class="text-success">x</span>{{f.valeurMultiplication}}
+                                        }
+                                      </span>
+                                    <i class="bx bx-trash text-danger me-2" (click)="deleteFace(f.idFace)"></i>
+                                  </li>
+                                }
+                              </ul>
+                            </div>
+                          </div>
+                      </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+            </div>
+          }
+          @if (isCreateCategorieService) {
+            <div class="card">
+              <div class="card-body row">
+                <div class="col-md-6">
+                  <h4 class="fw-bold">Liste Categorie</h4>
+                  <table class="table table-stripped">
+                    <thead>
+                      <tr>
+                        <th>Image</th>
+                        <th>Intitule</th>
+                        <th>Delete</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @for( c of listCategorieService; track $index) {
+                        <tr>
+                          <td>
+                            <img src="http://localhost:4200/assets/image/{{c.image}}" style="max-width: 50px; max-height: 50px;" alt="" srcset="">
+                          </td>
+                          <td>{{c.intitule}}</td>
+                          <td><i class="bx bx-trash text-danger" (click)="deletCategorieService(c.idCategorieService)"></i></td>
+                        </tr>
+                      }
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-md-6">
+                  <form action="" [formGroup]="categorieServiceFb">
+                    <div class="row">
+
+                      <div class=" col-md-12">
+                        <div class="mb-3">
+                          <label for="exampleFormControlSelect1" class="form-label">Intitule</label>
+                          <input type="text" formControlName="intitule" class="form-control" >
+                        </div>
+                      </div>
+
+                      <div class="col-md-12">
+                        <div class="mb-3">
+                          <label for="formFile" class="form-label">Image </label>
+                          <input class="form-control" type="file" id="formFile" (change)="onSelectImageCategorieService($event)" />
+                        </div>
+                        @if (seeImageCategorieService) {
+                          <div class="mb-3">
+                          <img class="card-img card-img-top mb-4" src="{{this.categorieImageUrl}}" style="max-height: 275px; max-width: 275px;" alt="Card image" />
+                          </div>
+                        }
+                      </div>
+
+                      <button class="btn btn-primary" (click)="createCategorieService()">  <i class="bx bx-plus"></i> </button>
+
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          }
+
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,328 @@
+
+
+<div class="container-xxl flex-grow-1 container-p-y">
+  <h4 class="py-3 mb-4"><span class="text-muted fw-light"><i class="bx bx-home-circle text-primary"></i> > </span> Setting</h4>
+
+  <div class="col-xl-12">
+    <h6 class="text-muted">Filled Tabs</h6>
+    <div class="nav-align-top mb-4">
+      <ul class="nav nav-tabs nav-fill" role="tablist">
+        <li class="nav-item">
+          <button
+            type="button"
+            class="nav-link active"
+            role="tab"
+            data-bs-toggle="tab"
+            data-bs-target="#navs-justified-home"
+            aria-controls="navs-justified-home"
+            aria-selected="true">
+            <i class='bx bx-printer me-1'></i><span class="d-none d-sm-block"> Impression</span>
+          </button>
+        </li>
+        <li class="nav-item">
+          <button
+            type="button"
+            class="nav-link"
+            role="tab"
+            data-bs-toggle="tab"
+            data-bs-target="#navs-justified-profile"
+            aria-controls="navs-justified-profile"
+            aria-selected="false">
+            <i class="tf-icons bx bx-cog me-1"></i><span class="d-none d-sm-block"> Autres Paramètres</span>
+          </button>
+        </li>
+      </ul>
+      <div class="tab-content">
+        <div class="tab-pane fade show active" id="navs-justified-home" role="tabpanel">
+          <p>
+            Icing pastry pudding oat cake. Lemon drops cotton candy caramels cake caramels sesame snaps
+            powder. Bear claw candy topping.
+          </p>
+          <div class="row">
+
+            <div class="col-md-6 col-lg-4">
+              <div class="card mb-3">
+                <div class="card-body">
+                  <h5 class="card-title">Service</h5>
+                  <p class="card-text">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ratione ullam eum at aspernatur! Quae, temporibus.</p>
+
+                      <!-- cREATE -->
+                      <button type="submit" class="btn btn-primary" (click)="sendToCreationService()" type="button"  data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <i class="bx bx-plus text-white"></i>
+                      </button>
+
+                      <div class="demo-inline-spacing mt-3">
+                        <div class="list-group list-group-flush">
+                        <small class="text-light fw-medium">Liste</small>
+
+
+                          <div class="demo-inline-spacing mt-3">
+                            <ul class="list-group">
+                             @for (s of listService; track $index) {
+                              <li class="list-group-item d-flex align-items-center">
+                                <i class="bx bx-trash text-danger me-2"></i>
+                                {{s.intitule}}
+                              </li>
+                             }
+
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+              <div class="card mb-3">
+                <div class="card-body">
+                  <h5 class="card-title">Mode Impresssion</h5>
+                  <p class="card-text">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ratione ullam eum at aspernatur! Quae, temporibus.</p>
+
+                  <!-- cREATE -->
+
+                  <button type="submit" class="btn btn-primary" (click)="sendToCreationModeImpression()" type="button"  data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <i class="bx bx-plus text-white"></i>
+                  </button>
+
+                      <div class="demo-inline-spacing mt-3">
+                        <div class="list-group list-group-flush">
+                          <small class="text-light fw-medium">Liste</small>
+
+                          @for( m of listModeImpression; track $index) {
+                            <li class="list-group-item list-group-item-action" (click)="selectModeImpression(m)">
+                              <i class="bx bx-trash text-danger me-2"></i>
+                              {{m.intitule}}
+                            </li>
+                          }
+                        </div>
+                      </div>
+
+
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+              <div class="card mb-3">
+                <div class="card-body">
+                  <h5 class="card-title">Dimension</h5>
+                  <p class="card-text">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ratione ullam eum at aspernatur! Quae, temporibus.</p>
+
+                  <!-- cREATE -->
+                  <button type="submit" class="btn btn-primary" (click)="sendToCreationDimension()" type="button"  data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <i class="bx bx-plus text-white"></i>
+                  </button>
+
+                      <div class="demo-inline-spacing mt-3">
+                        <div class="list-group list-group-flush">
+                      <small class="text-light fw-medium">Liste</small>
+
+                          @for( d of listDimension; track $index) {
+                            <li class="list-group-item list-group-item-action" (click)="selectDimension(d)">
+                              <i class="bx bx-trash text-danger me-2"></i>
+                              {{d.intitule}}
+                            </li>
+                          }
+                        </div>
+                      </div>
+
+
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+              <div class="card mb-3">
+                <div class="card-body">
+                  <h5 class="card-title">Format</h5>
+                  <p class="card-text">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ratione ullam eum at aspernatur! Quae, temporibus.</p>
+
+                  <!-- cREATE -->
+
+                  <button type="submit" class="btn btn-primary" (click)="sendToCreationFormat()" type="button"  data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <i class="bx bx-plus text-white"></i>
+                  </button>
+
+
+                      <div class="demo-inline-spacing mt-3">
+                        <div class="list-group list-group-flush">
+                        <small class="text-light fw-medium">Liste</small>
+
+                          @for( f of listFormat; track $index) {
+                            <li class="list-group-item list-group-item-action" (click)="selectFormat(f)">
+                              <i class="bx bx-trash text-danger me-2"></i>
+                              {{f.intitule}}
+                            </li>
+                          }
+                        </div>
+                      </div>
+
+
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="tab-pane fade" id="navs-justified-profile" role="tabpanel">
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum velit at voluptas praesentium rerum, omnis, architecto deleniti laborum commodi consequatur, fuga aliquam eum enim nihil.
+          </p>
+          <p class="mb-0">
+           Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores quos officiis, doloribus culpa saepe eveniet nihil placeat aut magnam impedit rem neque nam. Exercitationem cum dignissimos iure voluptas repellat sit praesentium maiores necessitatibus nihil explicabo ducimus, quae porro aut ab labore quo quidem incidunt modi pariatur neque? Vero, sint sit!
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">
+          @if (isService) {
+            Service
+          }
+          @if (isModeImpression) {
+            Mode Impression
+          }
+          @if (isDimension) {
+            Dimension
+          }
+          @if (isFormat) {}
+        </h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
+      </div>
+      <div class="modal-body">
+        <div class="card mb-4">
+          <div class="card-body ">
+
+            @if (isService) {
+              <form  action="" [formGroup]="serviceFb" (ngSubmit)="createService()">
+                <div class="row">
+                  <div class="input-group mb-2">
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="Créer un type d'impression"
+                      aria-label="Recipient's username"
+                      aria-describedby="button-addon2" formControlName="intitule" />
+                  </div>
+
+                  <div  class="input-group ">
+                    <div class="col-md-12 mb-2">
+                      <label for="exampleFormControlTextarea1" class="form-label">Description</label>
+                      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" formControlName="description"></textarea>
+                    </div>
+                  </div>
+
+                  <div  class="input-group justify-content-between">
+                    <div class="col-md-5 mb-2">
+                      <label for="exampleFormControlTextarea1" class="form-label">Prix Conception</label>
+                      <input type="" class="form-control " id="exampleFormControlTextarea1"  formControlName="prixConception">
+                    </div>
+                    <div class="col-md-2"></div>
+                    <div class="col-md-5 mb-2">
+                      <label for="exampleFormControlTextarea1" class="form-label">Prix Impression</label>
+                      <input type="" class="form-control " id="exampleFormControlTextarea1"  formControlName="prixImpression">
+                    </div>
+                  </div>
+
+
+                  <div class="mb-3">
+                      <label for="formFile" class="form-label">Image</label>
+                      <input class="form-control" type="file" id="formFile"  (change)="onSelectImage($event)" />
+                  </div>
+
+                </div>
+
+              </form>
+            }
+
+            @if (isModeImpression) {
+             <form action="" [formGroup]="modeImpressionFb" (ngSubmit)="createModeImpression()">
+                <div class="input-group mb-2">
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Créer un type d'impression"
+                    aria-label="Recipient's username"
+                    formControlName="intitule"
+                    aria-describedby="button-addon2" />
+                </div>
+
+                <div  class="input-group mb-2">
+                  <div class="col-md-12 mb-2">
+                    <label for="exampleFormControlTextarea1" class="form-label">Description</label>
+                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" formControlName="description"></textarea>
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-primary">
+                  <i class="bx bx-plus text-white"></i>
+                </button>
+              </form>
+            }
+
+            @if (isDimension) {
+              <form action="" [formGroup]="dimensionFb" (ngSubmit)="createDimension()">
+                <div class="input-group mb-2">
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Créer un type d'impression"
+                    aria-label="Recipient's username"
+                    formControlName="intitule"
+                    aria-describedby="button-addon2" />
+                </div>
+
+                <div  class="input-group mb-2">
+                  <div class="col-md-12 mb-2">
+                    <label for="exampleFormControlTextarea1" class="form-label">Description</label>
+                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" formControlName="description"></textarea>
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-primary">
+                  <i class="bx bx-plus text-white"></i>
+                </button>
+              </form>
+            }
+
+            @if (isFormat) {
+              <form action="" [formGroup]="formatFb" (ngSubmit)="createFormat()">
+                <div class="input-group mb-2">
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Créer un type d'impression"
+                    aria-label="Recipient's username"
+                    formControlName="intitule"
+                    aria-describedby="button-addon2" />
+                </div>
+
+                <div  class="input-group mb-2">
+                  <div class="col-md-12 mb-2">
+                    <label for="exampleFormControlTextarea1" class="form-label">Description</label>
+                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" formControlName="description"></textarea>
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-primary">
+                  <i class="bx bx-plus text-white"></i>
+                </button>
+              </form>
+
+            }
+         </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

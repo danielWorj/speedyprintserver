@@ -1,0 +1,240 @@
+<div class="container-xxl flex-grow-1 container-p-y">
+  <h4 class="py-3 mb-4"><span class="text-muted fw-light"><i class="bx bx-home-circle text-primary"></i> > </span> Abonnement</h4>
+
+  <div class="row">
+    <div class="col-md-10">
+      <h5 class="">Administration des Abonnement</h5>
+   </div>
+
+  </div>
+  <div class="card my-3">
+    <div class="card-body">
+      <div class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo, tempore? Numquam qui deserunt totam non beatae, optio voluptatibus quo ut esse assumenda perspiciatis corrupti iusto dolorem asperiores rerum et aut omnis enim delectus. Doloribus modi quas sint vel obcaecati impedit?</div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-8 ">
+      <div class="card">
+         <div class="card-body">
+         <div class="table-responsive text-nowrap" id="tableauLivraison">
+          <div class="d-flex justify-content-between  mb-3">
+            <input type="text" name="" id="" class="form-control w-50">
+             <div>
+                 <select class="form-select" id="exampleFormControlSelect1" aria-label="Default select example" (change)="getAllAbonnementByClient($event)" >
+                    <option selected>Filtrer par client</option>
+
+                    @for (e of listClient; track $index) {
+                      <option value="{{e.idUser}}">{{e.nomUtilisateur}}</option>
+                    }
+                  </select>
+              </div>
+            <button class="btn btn-primary"  type="button"  data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="goToAbonnement()" >
+
+            <i class="bx bx-plus "></i>
+            </button>
+          </div>
+          <div class="mb-3">
+            <label for="defaultInput" class="form-label">Recherher par client ... </label>
+            <select name="" class="form-select" id="" (change)="getAllAbonnementByClient($event)">
+              <option value="">Choisir</option>
+              @for (c of listClient; track $index) {
+                <option value="{{c.idUser}}">{{c.nomUtilisateur}}</option>
+              }
+            </select>
+          </div>
+              <p>Historique des abonnements</p>
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>N°</th>
+                    <th>Client </th>
+                    <th>Offre</th>
+                    <th>Date Fin</th>
+                  </tr>
+                </thead>
+                <tbody class="table-border-bottom-0">
+                    @for (a of listAbonnement; track $index) {
+                      <tr>
+                        <td>
+                        {{$index+1}}
+                        </td>
+                        <td>
+                          <i class="bx bx-user bx-sm text-secondary me-3"></i>
+                          <span>{{a.client.nomUtilisateur}}</span>
+                        </td>
+
+                        <th>
+                          <span class="fw-medium">{{a.offre.intitule}}</span>
+                        </th>
+                        <th>
+                          {{a.dateFin | date}}
+                        </th>
+
+                      </tr>
+
+                    }
+                </tbody>
+              </table>
+        </div>
+      </div>
+      </div>
+
+    </div>
+    <div class="col-md-4 ">
+       <div class="card">
+        <div class="card-body">
+          <div class="card-text mb-3">
+            <button class="btn btn-info" type="button" (click)="sendToCreation()"  data-bs-toggle="modal" data-bs-target="#exampleModal">
+              <i class="bx bx-plus text-white"></i>
+            </button>
+          </div>
+         @for (o of listOffre; track $index) {
+            <div class="col-md-12">
+              <div class="card mb-3">
+                <div class="row g-0">
+                  <div class="col-md-4">
+                    <img class="card-img card-img-left" src="../assets/image/code.jpg" style="min-height: 75px;" alt="Card image" />
+                  </div>
+                  <div class="col-md-8">
+                    <div class="card-body">
+                      <div class="card-title d-flex justify-content-between">
+                        <h5 class="fw-bold">{{o.intitule}}</h5>
+
+                        <div>
+                          <i class="bx bx-pencil text-info" ></i>
+                          <i class="bx bx-edit text-primary"  type="button"  data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="selectOffre(o); getAllDetailsOffre(o.idOffre)"></i>
+                          <i class="bx bx-trash text-danger" ></i>
+                        </div>
+
+                      </div>
+                      <div class="d-flex justify-content-between">
+                        <div class="card-text">
+                            {{o.montant}} XAF
+                          </div>
+                        <div class="card-text"><small class="text-muted text-primary">{{o.remise}}%</small></div>
+                      </div>
+                    </div>
+                  </div>
+
+              </div>
+              </div>
+
+            </div>
+        }
+       </div>
+       </div>
+    </div>
+  </div>
+
+
+  <!-- Basic Bootstrap Table -->
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Offre</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeModal()"></button>
+      </div>
+      <div class="modal-body">
+        <div class="card mb-4">
+          <div class="card-body ">
+
+             @if (isOffre) {
+              <div class="row">
+              <div class="col-md-6">
+                <div class="card-text"><h3 class="fw-bold">Offre</h3></div>
+                <form action="" [formGroup]="offreGroup">
+
+                  <div class="row">
+
+                    <div class="mb-3">
+                      <label for="defaultInput" class="form-label">Intitulé :  </label>
+                      <input id="defaultInput" class="form-control" type="text" placeholder="Default input" formControlName="intitule" />
+                    </div>
+                    <div class="mb-3">
+                      <label for="defaultInput" class="form-label">Remise :  </label>
+                      <input id="defaultInput" class="form-control" type="number" placeholder="Default input" formControlName="remise" />
+                    </div>
+                    <div class="mb-3">
+                      <label for="defaultInput" class="form-label">Montant :  </label>
+                      <input id="defaultInput" class="form-control" type="number" placeholder="Default input" formControlName="montant"/>
+                    </div>
+
+
+                  </div>
+                  <hr class="my-5" />
+                  <div class="btn-group ">
+                    <button  class="btn btn-primary" (click)="createOffre()"> <i class="bx bx-save"></i> </button>
+                  </div>
+                </form>
+              </div>
+              <div class="col-md-6">
+                <div class="card-text"><h3 class="fw-bold">Details</h3></div>
+
+                @if (isOffreCreate) {
+                  <form action="" [formGroup]="detailsOffreGroup">
+                    <div class="input-group">
+                      <textarea
+                        rows="3"
+                        class="form-control"
+                        placeholder="Critères "
+                        aria-label="Recipient's username"
+                        aria-describedby="button-addon2" formControlName="intitule"></textarea>
+                      <button class="btn btn-outline-primary" type="button" id="button-addon2" (click)="createDetailsOffre()">
+                        <i class="bx bx-plus"></i>
+                      </button>
+                    </div>
+                  </form>
+                }
+
+                @for (d of listDetails; track $index) {
+                  <p><i class="bx bx-check text-warning"></i>{{d.intitule}}</p>
+                }
+              </div>
+             </div>
+
+             }
+             @if (isAbonnement) {
+               <form action="" [formGroup]="abonnementFb">
+
+                  <div class="row">
+
+                    <div class="mb-3">
+                      <label for="defaultInput" class="form-label">Client </label>
+                      <select name="" class="form-select" id="" formControlName="client">
+                        <option value="">Choisir</option>
+                        @for (c of listClient; track $index) {
+                          <option value="{{c.idUser}}">{{c.nomUtilisateur}}</option>
+                        }
+                      </select>
+                    </div>
+
+
+                    <div class="mb-3">
+                      <label for="defaultInput" class="form-label">Offre </label>
+                      <select name="" class="form-select" id="" formControlName="offre">
+                        <option value="">Choisir</option>
+                        @for (o of listOffre; track $index) {
+                          <option value="{{o.idOffre}}">{{o.intitule}}</option>
+                        }
+                      </select>
+                    </div>
+
+                  </div>
+                  <hr class="my-5" />
+                  <div class="btn-group ">
+                    <button  class="btn btn-primary" (click)="createAbonnement()"> <i class="bx bx-save"></i> </button>
+                  </div>
+                </form>
+             }
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

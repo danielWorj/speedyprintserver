@@ -1,0 +1,186 @@
+<div class="container-xxl flex-grow-1 container-p-y">
+  <h4 class="py-3 mb-4"><span class="text-muted fw-light"><i class="bx bx-home-circle text-primary"></i> > </span> Livraison</h4>
+
+  <!-- Crad statistique -->
+  <div class="row">
+    <div class="col-lg-4 mb-4 order-0">
+      <div class="card">
+        <div class="d-flex align-items-end row">
+          <div class="col-sm-7">
+            <div class="card-body">
+              <h5 class="card-title text-success"> <i class="bx bx-bookmark"></i> Total 🎉</h5>
+              <h3 class="mb-4">
+                {{countLivraison}}
+              </h3>
+
+              <a href="#tableauLivraison" class="btn btn-sm btn-outline-primary">Visiter</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
+
+  <div class="row mb-3">
+    <div class="col-md-8">
+      <div class="accordion mt-3 accordion-without-arrow">
+        <div class="accordion-item card">
+          <h2 class="accordion-header text-body d-flex justify-content-between" id="accordionIconOne">
+            <button
+              type="button"
+              class="accordion-button collapsed"
+              data-bs-toggle="collapse"
+              data-bs-target="#accordionIcon-1"
+              aria-controls="accordionIcon-1" (click)="openChart()">
+              Repartition Par Mois
+            </button>
+          </h2>
+
+          <div id="accordionIcon-1" class="accordion-collapse collapse" data-bs-parent="#accordionIcon">
+            <div class="accordion-body">
+              <div class="mb-2"  >
+                <canvas id="chartLivraisonMois"   style="max-width: 1000px;  max-height: 1000px;"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="accordion mt-3 accordion-without-arrow">
+        <div class="accordion-item card">
+          <h2 class="accordion-header text-body d-flex justify-content-between" id="accordionIconOne">
+            <button
+              type="button"
+              class="accordion-button collapsed"
+              data-bs-toggle="collapse"
+              data-bs-target="#accordionIcon-1"
+              aria-controls="accordionIcon-1" (click)="openChart()">
+              Repartition Par Quantite
+            </button>
+          </h2>
+
+          <div id="accordionIcon-1" class="accordion-collapse collapse" data-bs-parent="#accordionIcon">
+            <div class="accordion-body">
+              <div class="mb-2"  >
+            <canvas id="chartLivraisonQte" style="max-width: 350px; max-height: 350px;"></canvas>
+          </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Basic Bootstrap Table -->
+  <div class="card">
+    <div class="card-header row ">
+      <div class="col-md-10">
+         <h5 class="">Administration des Livraisons</h5>
+      </div>
+      <div class="col-md-2">
+         <button class="btn btn-primary" type="button"  data-bs-toggle="modal" data-bs-target="#exampleModal">
+          <i class="bx bx-plus text-white"></i>
+         </button>
+      </div>
+    </div>
+    <div class="table-responsive text-nowrap" id="tableauLivraison">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>N°</th>
+            <th>Service</th>
+            <th>Propriétaire</th>
+            <th>Contacts</th>
+            <th>Destination</th>
+            <th>Livraison Supposée</th>
+            <th>Livraison Réelle</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody class="table-border-bottom-0">
+          @for (l of listLivraison; track $index) {
+            <tr>
+              <td>
+               {{$index+1}}
+              </td>
+              <td> {{l.commande.service.intitule}}</td>
+              <td> {{l.commande.client.nomUtilisateur}}</td>
+              <td> {{l.commande.client.contact}}</td>
+              <td> {{l.destination}} </td>
+              <td> {{l.commande.dateLivraison}} </td>
+              <td> {{l.localDate}} </td>
+              <td>
+                <i class="bx bx-edit text-info" type="button"  data-bs-toggle="modal" data-bs-target="#exampleModal"></i>
+              </td>
+            </tr>
+          }
+
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <!--/ Basic Bootstrap Table -->
+
+  <hr class="my-5" />
+  <!--/ Responsive Table -->
+</div>
+
+
+<!-- Modal -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">LIVRAISON</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="card mb-4">
+          <div class="card-body ">
+
+            <form action="" [formGroup]="livraisonFb" (ngSubmit)="createLivraison()">
+              <div class="row">
+
+                <div class="mb-3">
+                  <label for="exampleFormControlSelect1" class="form-label">COMMANDE </label>
+                  <select class="form-select" id="exampleFormControlSelect1" aria-label="Default select example" formControlName="commande">
+                      <option selected>Choisir</option>
+                    @for (c of listCommande; track $index) {
+                      <option value="{{c.idCommande}}">{{c.service.intitule}} : {{c.client.nomUtilisateur}}</option>
+                    }
+                  </select>
+                </div>
+
+               </div>
+
+              <div class="mb-3">
+                <label for="defaultInput" class="form-label">Destination </label>
+                <input type="text" id="defaultInput" class="form-control" type="text" placeholder="Default input" formControlName="destination" />
+              </div>
+
+              <div class="mb-3">
+                <label for="defaultInput" class="form-label">Date </label>
+                <input type="date" id="defaultInput" class="form-control"  placeholder="Default input" formControlName="localDate" />
+              </div>
+              <button type="submit" class="btn btn-info" data-bs-dismiss="modal" aria-label="Close"> <i class="bx bx-save"></i> </button>
+
+
+            </form>
+          <!-- bTNT -->
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
