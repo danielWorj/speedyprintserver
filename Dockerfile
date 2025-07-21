@@ -1,8 +1,8 @@
-FROM maven:3-eclipse-temurin-17 AS build
+FROM maven:3.8.3-openjdk-17 AS build
 COPY . .
-RUN mvn clean package -DskipTests
+RUN mvn clean install
 
-FROM eclipse-temurin:17-alpine
-COPY --from=build /target/*.jar speedyprintserver.jar
+FROM eclipse-temurin:17-jdk
+COPY --from=build /target/server.jar demo.jar
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "speedyprintserver.jar"]
+ENTRYPOINT ["java", "-jar", "demo.jar"]
